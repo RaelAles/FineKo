@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FineKo\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
+msgstr "Använd på bok: sparar vald metadata och valt omslag."
+
+msgid "Aplicando capa…"
+msgstr "Tillämpar omslag…"
+
+msgid "Autor(es)"
+msgstr "Författare"
+
+msgid "Cancelar"
+msgstr "Avbryt"
+
+msgid "%1 candidata(s) — tocar para ver e escolher"
+msgstr "%1 kandidat(er) — tryck för att visa och välja"
+
+msgid "Não foi possível exibir a capa (formato não suportado)."
+msgstr "Kunde inte visa omslaget (formatet stöds inte)."
+
+msgid "escolha uma opção; toque longo mostra o texto completo"
+msgstr "välj ett alternativ; håll in för att visa hela texten"
+
+msgid "Capa"
+msgstr "Omslag"
+
+msgid "%1 capa(s) — toque para visualizar; toque longo para escolher"
+msgstr "%1 omslag — tryck för att förhandsgranska; håll in för att välja"
+
+msgid "Descrição"
+msgstr "Beskrivning"
+
+msgid "Baixando capas…"
+msgstr "Hämtar omslag…"
+
+msgid "Editar"
+msgstr "Redigera"
+
+msgid "Editar manualmente…"
+msgstr "Redigera manuellt…"
+
+msgid "(vazio — tocar para adicionar)"
+msgstr "(tomt — tryck för att lägga till)"
+
+msgid "Erro ao salvar metadados: "
+msgstr "Fel vid sparande av metadata: "
+
+msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
+msgstr "Ange bokens ISBN-10 eller ISBN-13.\nLämna tomt för att visa/redigera dokumentets nuvarande metadata."
+
+msgid "ISBN:"
+msgstr "ISBN:"
+
+msgid "Palavras-chave"
+msgstr "Nyckelord"
+
+msgid "Idioma"
+msgstr "Språk"
+
+msgid "Metadados e capa atualizados com sucesso."
+msgstr "Metadata och omslag uppdaterades."
+
+msgid "Agrega metadados de livros por ISBN de várias fontes gratuitas (Google Books, Open Library, Inventaire, Amazon), com edição campo a campo e escolha da capa de maior qualidade."
+msgstr "Sammanställer bokmetadata via ISBN från flera kostnadsfria källor (Google Books, Open Library, Inventaire, Amazon), med redigering fält för fält och val av omslaget med bäst kvalitet."
+
+msgid "Metadados encontrados"
+msgstr "Metadata hittades"
+
+msgid "Atualizar metadados"
+msgstr "Uppdatera metadata"
+
+msgid "N/D"
+msgstr "N/A"
+
+msgid "Nenhuma capa válida encontrada."
+msgstr "Inget giltigt omslag hittades."
+
+msgid "nenhuma encontrada"
+msgstr "ingen hittad"
+
+msgid "nenhuma válida"
+msgstr "ingen giltig"
+
+msgid "Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."
+msgstr "Ingen bok hittades för detta ISBN.\nKontrollera anslutningen och försök igen."
+
+msgid "%1 resultado(s); toque longo mostra o texto completo"
+msgstr "%1 resultat; håll in för att visa hela texten"
+
+msgid "Salvar"
+msgstr "Spara"
+
+msgid "Metadados salvos.\nNão foi possível aplicar a capa."
+msgstr "Metadata sparades.\nKunde inte tillämpa omslaget."
+
+msgid "Buscar metadados"
+msgstr "Sök metadata"
+
+msgid "Buscar"
+msgstr "Sök"
+
+msgid "Buscar metadados — ISBN"
+msgstr "Sök metadata — ISBN"
+
+msgid "Buscando metadados…"
+msgstr "Söker metadata…"
+
+msgid "Série"
+msgstr "Serie"
+
+msgid "Número na série"
+msgstr "Nummer i serien"
+
+msgid "tocar para ver/trocar"
+msgstr "tryck för att visa/ändra"
+
+msgid "Título"
+msgstr "Titel"
+
+msgid "%1 imagem(ns) única(s) de %2 candidata(s) — fontes com a mesma capa foram agrupadas.\nToque para visualizar; toque longo para escolher."
+msgstr "%1 unik(a) bild(er) av %2 kandidat(er) — källor med samma omslag har grupperats.\nTryck för att förhandsgranska; håll in för att välja."
+
+msgid "Metadados atualizados com sucesso."
+msgstr "Metadata uppdaterades."
+
+msgid "Fechar"
+msgstr "Stäng"
+
+msgid "Destaque"
+msgstr "Markering"
+
+msgid "Exibe um destaque aleatório dos seus livros ao abrir o KOReader ou ao retornar da suspensão."
+msgstr "Visar en slumpmässig markering från dina böcker när KOReader öppnas eller vid återkomst från viloläge."
+
+msgid "mais"
+msgstr "mer"
+
+msgid "Destaque aleatório"
+msgstr "Slumpmässig markering"
+
+msgid "Nenhum destaque encontrado nos seus livros."
+msgstr "Ingen markering hittades i dina böcker."
+
+msgid "Nota: %1"
+msgstr "Not: %1"
+
+msgid "Ver um destaque agora"
+msgstr "Visa en markering nu"
+
+msgid "Mostrar ao abrir o KOReader"
+msgstr "Visa när KOReader öppnas"
+
+msgid "Mostrar ao retornar da suspensão"
+msgstr "Visa vid återkomst från viloläge"
+
+msgid "Selo de progresso/conclusão"
+msgstr "Framstegs-/klarmärke"
+
+msgid "Faixa central com o título"
+msgstr "Mittenband med titeln"
+
+msgid "No modo mosaico, exibe sobre cada capa uma faixa central com o título\ndo livro e um selo sutil com o estado de leitura (porcentagem ou concluído).\n\nFunciona como camada sobre o plugin nativo \"Cover browser\", que precisa estar\nem modo mosaico."
+msgstr "I mosaikläge visas ett mittenband med boktiteln över varje omslag,\noch ett diskret märke med lässtatus (procent eller klart).\n\nFungerar som ett lager ovanpå det inbyggda plugin-programmet \"Cover browser\", som måste vara\ni mosaikläge."
+
+msgid "Estante mosaico"
+msgstr "Mosaikhylla"

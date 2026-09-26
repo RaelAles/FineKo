@@ -1,3 +1,5 @@
+-- Traduções conforme o idioma escolhido no KOReader (ver fineko_i18n.lua).
+require("fineko_i18n").load(debug.getinfo(1, "S").source:match("@(.*/)"), "fineko")
 local _ = require("gettext")
 return {
     fullname = _("Estante mosaico"),

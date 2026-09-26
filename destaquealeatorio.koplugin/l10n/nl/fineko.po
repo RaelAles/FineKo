@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FineKo\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
+msgstr "Op boek toepassen: slaat de geselecteerde metadata en omslag op."
+
+msgid "Aplicando capa…"
+msgstr "Omslag toepassen…"
+
+msgid "Autor(es)"
+msgstr "Auteur(s)"
+
+msgid "Cancelar"
+msgstr "Annuleren"
+
+msgid "%1 candidata(s) — tocar para ver e escolher"
+msgstr "%1 kandidaat/kandidaten — tik om te bekijken en te kiezen"
+
+msgid "Não foi possível exibir a capa (formato não suportado)."
+msgstr "Kan de omslag niet weergeven (niet-ondersteund formaat)."
+
+msgid "escolha uma opção; toque longo mostra o texto completo"
+msgstr "kies een optie; houd ingedrukt om de volledige tekst te tonen"
+
+msgid "Capa"
+msgstr "Omslag"
+
+msgid "%1 capa(s) — toque para visualizar; toque longo para escolher"
+msgstr "%1 omslag(en) — tik om te bekijken; houd ingedrukt om te kiezen"
+
+msgid "Descrição"
+msgstr "Beschrijving"
+
+msgid "Baixando capas…"
+msgstr "Omslagen downloaden…"
+
+msgid "Editar"
+msgstr "Bewerken"
+
+msgid "Editar manualmente…"
+msgstr "Handmatig bewerken…"
+
+msgid "(vazio — tocar para adicionar)"
+msgstr "(leeg — tik om toe te voegen)"
+
+msgid "Erro ao salvar metadados: "
+msgstr "Fout bij het opslaan van metadata: "
+
+msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
+msgstr "Voer de ISBN-10 of ISBN-13 van het boek in.\nLaat leeg om de huidige metadata van het document te bekijken/bewerken."
+
+msgid "ISBN:"
+msgstr "ISBN:"
+
+msgid "Palavras-chave"
+msgstr "Trefwoorden"
+
+msgid "Idioma"
+msgstr "Taal"
+
+msgid "Metadados e capa atualizados com sucesso."
+msgstr "Metadata en omslag bijgewerkt."
+
+msgid "Agrega metadados de livros por ISBN de várias fontes gratuitas (Google Books, Open Library, Inventaire, Amazon), com edição campo a campo e escolha da capa de maior qualidade."
+msgstr "Voegt boekmetadata per ISBN samen uit meerdere gratis bronnen (Google Books, Open Library, Inventaire, Amazon), met bewerking per veld en keuze van de omslag van de hoogste kwaliteit."
+
+msgid "Metadados encontrados"
+msgstr "Metadata gevonden"
+
+msgid "Atualizar metadados"
+msgstr "Metadata bijwerken"
+
+msgid "N/D"
+msgstr "N.v.t."
+
+msgid "Nenhuma capa válida encontrada."
+msgstr "Geen geldige omslag gevonden."
+
+msgid "nenhuma encontrada"
+msgstr "geen gevonden"
+
+msgid "nenhuma válida"
+msgstr "geen geldige"
+
+msgid "Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."
+msgstr "Geen boek gevonden voor dit ISBN.\nControleer de verbinding en probeer het opnieuw."
+
+msgid "%1 resultado(s); toque longo mostra o texto completo"
+msgstr "%1 resultaat/resultaten; houd ingedrukt om de volledige tekst te tonen"
+
+msgid "Salvar"
+msgstr "Opslaan"
+
+msgid "Metadados salvos.\nNão foi possível aplicar a capa."
+msgstr "Metadata opgeslagen.\nKan de omslag niet toepassen."
+
+msgid "Buscar metadados"
+msgstr "Metadata zoeken"
+
+msgid "Buscar"
+msgstr "Zoeken"
+
+msgid "Buscar metadados — ISBN"
+msgstr "Metadata zoeken — ISBN"
+
+msgid "Buscando metadados…"
+msgstr "Metadata wordt gezocht…"
+
+msgid "Série"
+msgstr "Reeks"
+
+msgid "Número na série"
+msgstr "Nummer in de reeks"
+
+msgid "tocar para ver/trocar"
+msgstr "tik om te bekijken/wijzigen"
+
+msgid "Título"
+msgstr "Titel"
+
+msgid "%1 imagem(ns) única(s) de %2 candidata(s) — fontes com a mesma capa foram agrupadas.\nToque para visualizar; toque longo para escolher."
+msgstr "%1 unieke afbeelding(en) van %2 kandidaat/kandidaten — bronnen met dezelfde omslag zijn gegroepeerd.\nTik om te bekijken; houd ingedrukt om te kiezen."
+
+msgid "Metadados atualizados com sucesso."
+msgstr "Metadata bijgewerkt."
+
+msgid "Fechar"
+msgstr "Sluiten"
+
+msgid "Destaque"
+msgstr "Markering"
+
+msgid "Exibe um destaque aleatório dos seus livros ao abrir o KOReader ou ao retornar da suspensão."
+msgstr "Toont een willekeurige markering uit je boeken bij het openen van KOReader of bij terugkeer uit slaapstand."
+
+msgid "mais"
+msgstr "meer"
+
+msgid "Destaque aleatório"
+msgstr "Willekeurige markering"
+
+msgid "Nenhum destaque encontrado nos seus livros."
+msgstr "Geen markering gevonden in je boeken."
+
+msgid "Nota: %1"
+msgstr "Opmerking: %1"
+
+msgid "Ver um destaque agora"
+msgstr "Nu een markering tonen"
+
+msgid "Mostrar ao abrir o KOReader"
+msgstr "Tonen bij openen van KOReader"
+
+msgid "Mostrar ao retornar da suspensão"
+msgstr "Tonen bij terugkeer uit slaapstand"
+
+msgid "Selo de progresso/conclusão"
+msgstr "Voortgangs-/voltooiingsbadge"
+
+msgid "Faixa central com o título"
+msgstr "Middenband met de titel"
+
+msgid "No modo mosaico, exibe sobre cada capa uma faixa central com o título\ndo livro e um selo sutil com o estado de leitura (porcentagem ou concluído).\n\nFunciona como camada sobre o plugin nativo \"Cover browser\", que precisa estar\nem modo mosaico."
+msgstr "In mozaïekmodus wordt over elke omslag een middenband met de boekentitel\nen een subtiele badge met de leesstatus (percentage of voltooid) weergegeven.\n\nWerkt als laag over de native plugin \"Cover browser\", die in\nmozaïekmodus moet staan."
+
+msgid "Estante mosaico"
+msgstr "Mozaïekplank"

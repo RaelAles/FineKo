@@ -25,6 +25,8 @@ local lfs = require("libs/libkoreader-lfs")
 local logger = require("logger")
 local util = require("util")
 local _ = require("gettext")
+-- Traduções conforme o idioma escolhido no KOReader (ver fineko_i18n.lua).
+require("fineko_i18n").load(debug.getinfo(1, "S").source:match("@(.*/)"), "fineko")
 local T = require("ffi/util").template
 local Screen = Device.screen
 

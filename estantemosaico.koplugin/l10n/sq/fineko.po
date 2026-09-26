@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FineKo\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
+msgstr "Zbato në libër: ruan metadata dhe kopertinën e zgjedhur."
+
+msgid "Aplicando capa…"
+msgstr "Duke zbatuar kopertinën…"
+
+msgid "Autor(es)"
+msgstr "Autori/ët"
+
+msgid "Cancelar"
+msgstr "Anulo"
+
+msgid "%1 candidata(s) — tocar para ver e escolher"
+msgstr "%1 kandidat(ë) — trokit për të parë dhe zgjedhur"
+
+msgid "Não foi possível exibir a capa (formato não suportado)."
+msgstr "Nuk u mundësua shfaqja e kopertinës (format i pambështetur)."
+
+msgid "escolha uma opção; toque longo mostra o texto completo"
+msgstr "zgjidh një opsion; mbaj shtypur për të shfaqur tekstin e plotë"
+
+msgid "Capa"
+msgstr "Kopertina"
+
+msgid "%1 capa(s) — toque para visualizar; toque longo para escolher"
+msgstr "%1 kopertinë(a) — trokit për të parë; mbaj shtypur për të zgjedhur"
+
+msgid "Descrição"
+msgstr "Përshkrimi"
+
+msgid "Baixando capas…"
+msgstr "Duke shkarkuar kopertinat…"
+
+msgid "Editar"
+msgstr "Redakto"
+
+msgid "Editar manualmente…"
+msgstr "Redakto manualisht…"
+
+msgid "(vazio — tocar para adicionar)"
+msgstr "(bosh — trokit për të shtuar)"
+
+msgid "Erro ao salvar metadados: "
+msgstr "Gabim gjatë ruajtjes së metadata: "
+
+msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
+msgstr "Shkruaj ISBN-10 ose ISBN-13 e librit.\nLëre bosh për të parë/redaktuar metadata aktuale të dokumentit."
+
+msgid "ISBN:"
+msgstr "ISBN:"
+
+msgid "Palavras-chave"
+msgstr "Fjalë kyçe"
+
+msgid "Idioma"
+msgstr "Gjuha"
+
+msgid "Metadados e capa atualizados com sucesso."
+msgstr "Metadata dhe kopertina u përditësuan me sukses."
+
+msgid "Agrega metadados de livros por ISBN de várias fontes gratuitas (Google Books, Open Library, Inventaire, Amazon), com edição campo a campo e escolha da capa de maior qualidade."
+msgstr "Përmbledh metadata e librave sipas ISBN nga disa burime falas (Google Books, Open Library, Inventaire, Amazon), me redaktim fushë për fushë dhe zgjedhje të kopertinës me cilësinë më të lartë."
+
+msgid "Metadados encontrados"
+msgstr "Metadata u gjet"
+
+msgid "Atualizar metadados"
+msgstr "Përditëso metadata"
+
+msgid "N/D"
+msgstr "N/A"
+
+msgid "Nenhuma capa válida encontrada."
+msgstr "Nuk u gjet asnjë kopertinë e vlefshme."
+
+msgid "nenhuma encontrada"
+msgstr "asnjë e gjetur"
+
+msgid "nenhuma válida"
+msgstr "asnjë e vlefshme"
+
+msgid "Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."
+msgstr "Nuk u gjet asnjë libër për këtë ISBN.\nKontrollo lidhjen dhe provo përsëri."
+
+msgid "%1 resultado(s); toque longo mostra o texto completo"
+msgstr "%1 rezultat(e); mbaj shtypur për të shfaqur tekstin e plotë"
+
+msgid "Salvar"
+msgstr "Ruaj"
+
+msgid "Metadados salvos.\nNão foi possível aplicar a capa."
+msgstr "Metadata u ruajt.\nNuk u mundësua zbatimi i kopertinës."
+
+msgid "Buscar metadados"
+msgstr "Kërko metadata"
+
+msgid "Buscar"
+msgstr "Kërko"
+
+msgid "Buscar metadados — ISBN"
+msgstr "Kërko metadata — ISBN"
+
+msgid "Buscando metadados…"
+msgstr "Duke kërkuar metadata…"
+
+msgid "Série"
+msgstr "Seria"
+
+msgid "Número na série"
+msgstr "Numri në seri"
+
+msgid "tocar para ver/trocar"
+msgstr "trokit për të parë/ndryshuar"
+
+msgid "Título"
+msgstr "Titulli"
+
+msgid "%1 imagem(ns) única(s) de %2 candidata(s) — fontes com a mesma capa foram agrupadas.\nToque para visualizar; toque longo para escolher."
+msgstr "%1 imazh(e) unike nga %2 kandidat(ë) — burimet me të njëjtën kopertinë u grupuaren.\nTrokit për të parë; mbaj shtypur për të zgjedhur."
+
+msgid "Metadados atualizados com sucesso."
+msgstr "Metadata u përditësua me sukses."
+
+msgid "Fechar"
+msgstr "Mbyll"
+
+msgid "Destaque"
+msgstr "Theksim"
+
+msgid "Exibe um destaque aleatório dos seus livros ao abrir o KOReader ou ao retornar da suspensão."
+msgstr "Shfaq një theksim të rastësishëm nga librat e tu kur hapet KOReader ose kur kthehesh nga gjumi."
+
+msgid "mais"
+msgstr "më shumë"
+
+msgid "Destaque aleatório"
+msgstr "Theksim i rastësishëm"
+
+msgid "Nenhum destaque encontrado nos seus livros."
+msgstr "Nuk u gjet asnjë theksim në librat e tu."
+
+msgid "Nota: %1"
+msgstr "Shënim: %1"
+
+msgid "Ver um destaque agora"
+msgstr "Shfaq një theksim tani"
+
+msgid "Mostrar ao abrir o KOReader"
+msgstr "Shfaq kur hapet KOReader"
+
+msgid "Mostrar ao retornar da suspensão"
+msgstr "Shfaq kur kthehesh nga gjumi"
+
+msgid "Selo de progresso/conclusão"
+msgstr "Distinktiv i progresit/përfundimit"
+
+msgid "Faixa central com o título"
+msgstr "Shirit qendror me titullin"
+
+msgid "No modo mosaico, exibe sobre cada capa uma faixa central com o título\ndo livro e um selo sutil com o estado de leitura (porcentagem ou concluído).\n\nFunciona como camada sobre o plugin nativo \"Cover browser\", que precisa estar\nem modo mosaico."
+msgstr "Në modalitetin mozaik, shfaq mbi çdo kopertinë një shirit qendror me titullin e librit\ndhe një distinktiv diskret me statusin e leximit (përqindje ose përfunduar).\n\nFunksionon si shtresë mbi plugin-in e integruar \"Cover browser\", i cili duhet të jetë\nnë modalitetin mozaik."
+
+msgid "Estante mosaico"
+msgstr "Raft mozaik"

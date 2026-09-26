@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FineKo\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fil\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
+msgstr "Ilapat sa libro: sine-save ang napiling metadata at pabalat."
+
+msgid "Aplicando capa…"
+msgstr "Inilalapat ang pabalat…"
+
+msgid "Autor(es)"
+msgstr "(Mga) May-akda"
+
+msgid "Cancelar"
+msgstr "Kanselahin"
+
+msgid "%1 candidata(s) — tocar para ver e escolher"
+msgstr "%1 kandidato — i-tap para tingnan at pumili"
+
+msgid "Não foi possível exibir a capa (formato não suportado)."
+msgstr "Hindi maipakita ang pabalat (hindi suportadong format)."
+
+msgid "escolha uma opção; toque longo mostra o texto completo"
+msgstr "pumili ng opsyon; pindutin nang matagal para ipakita ang buong teksto"
+
+msgid "Capa"
+msgstr "Pabalat"
+
+msgid "%1 capa(s) — toque para visualizar; toque longo para escolher"
+msgstr "%1 pabalat — i-tap para i-preview; pindutin nang matagal para pumili"
+
+msgid "Descrição"
+msgstr "Paglalarawan"
+
+msgid "Baixando capas…"
+msgstr "Nagda-download ng mga pabalat…"
+
+msgid "Editar"
+msgstr "I-edit"
+
+msgid "Editar manualmente…"
+msgstr "I-edit nang manu-mano…"
+
+msgid "(vazio — tocar para adicionar)"
+msgstr "(walang laman — i-tap para magdagdag)"
+
+msgid "Erro ao salvar metadados: "
+msgstr "Error sa pag-save ng metadata: "
+
+msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
+msgstr "Ilagay ang ISBN-10 o ISBN-13 ng libro.\nIwanang blangko para tingnan/i-edit ang kasalukuyang metadata ng dokumento."
+
+msgid "ISBN:"
+msgstr "ISBN:"
+
+msgid "Palavras-chave"
+msgstr "Mga keyword"
+
+msgid "Idioma"
+msgstr "Wika"
+
+msgid "Metadados e capa atualizados com sucesso."
+msgstr "Matagumpay na na-update ang metadata at pabalat."
+
+msgid "Agrega metadados de livros por ISBN de várias fontes gratuitas (Google Books, Open Library, Inventaire, Amazon), com edição campo a campo e escolha da capa de maior qualidade."
+msgstr "Pinagsasama-sama ang metadata ng libro ayon sa ISBN mula sa ilang libreng pinagmulan (Google Books, Open Library, Inventaire, Amazon), na may pag-edit sa bawat field at pagpili ng pinakamataas na kalidad na pabalat."
+
+msgid "Metadados encontrados"
+msgstr "May nahanap na metadata"
+
+msgid "Atualizar metadados"
+msgstr "I-update ang metadata"
+
+msgid "N/D"
+msgstr "N/A"
+
+msgid "Nenhuma capa válida encontrada."
+msgstr "Walang nahanap na wastong pabalat."
+
+msgid "nenhuma encontrada"
+msgstr "walang nahanap"
+
+msgid "nenhuma válida"
+msgstr "walang wasto"
+
+msgid "Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."
+msgstr "Walang nahanap na libro para sa ISBN na ito.\nSuriin ang koneksyon at subukang muli."
+
+msgid "%1 resultado(s); toque longo mostra o texto completo"
+msgstr "%1 resulta; pindutin nang matagal para ipakita ang buong teksto"
+
+msgid "Salvar"
+msgstr "I-save"
+
+msgid "Metadados salvos.\nNão foi possível aplicar a capa."
+msgstr "Na-save ang metadata.\nHindi nailapat ang pabalat."
+
+msgid "Buscar metadados"
+msgstr "Maghanap ng metadata"
+
+msgid "Buscar"
+msgstr "Hanapin"
+
+msgid "Buscar metadados — ISBN"
+msgstr "Maghanap ng metadata — ISBN"
+
+msgid "Buscando metadados…"
+msgstr "Naghahanap ng metadata…"
+
+msgid "Série"
+msgstr "Serye"
+
+msgid "Número na série"
+msgstr "Numero sa serye"
+
+msgid "tocar para ver/trocar"
+msgstr "i-tap para tingnan/palitan"
+
+msgid "Título"
+msgstr "Pamagat"
+
+msgid "%1 imagem(ns) única(s) de %2 candidata(s) — fontes com a mesma capa foram agrupadas.\nToque para visualizar; toque longo para escolher."
+msgstr "%1 natatanging larawan sa %2 kandidato — pinagsama ang mga pinagmulan na may parehong pabalat.\nI-tap para i-preview; pindutin nang matagal para pumili."
+
+msgid "Metadados atualizados com sucesso."
+msgstr "Matagumpay na na-update ang metadata."
+
+msgid "Fechar"
+msgstr "Isara"
+
+msgid "Destaque"
+msgstr "Highlight"
+
+msgid "Exibe um destaque aleatório dos seus livros ao abrir o KOReader ou ao retornar da suspensão."
+msgstr "Nagpapakita ng random na highlight mula sa iyong mga libro kapag binubuksan ang KOReader o bumabalik mula sa pagtulog."
+
+msgid "mais"
+msgstr "higit pa"
+
+msgid "Destaque aleatório"
+msgstr "Random na highlight"
+
+msgid "Nenhum destaque encontrado nos seus livros."
+msgstr "Walang nahanap na highlight sa iyong mga libro."
+
+msgid "Nota: %1"
+msgstr "Tala: %1"
+
+msgid "Ver um destaque agora"
+msgstr "Magpakita ng highlight ngayon"
+
+msgid "Mostrar ao abrir o KOReader"
+msgstr "Ipakita kapag binubuksan ang KOReader"
+
+msgid "Mostrar ao retornar da suspensão"
+msgstr "Ipakita kapag bumabalik mula sa pagtulog"
+
+msgid "Selo de progresso/conclusão"
+msgstr "Badge ng progreso/pagkumpleto"
+
+msgid "Faixa central com o título"
+msgstr "Gitnang banda na may pamagat"
+
+msgid "No modo mosaico, exibe sobre cada capa uma faixa central com o título\ndo livro e um selo sutil com o estado de leitura (porcentagem ou concluído).\n\nFunciona como camada sobre o plugin nativo \"Cover browser\", que precisa estar\nem modo mosaico."
+msgstr "Sa mosaic mode, nagpapakita sa bawat pabalat ng gitnang banda na may pamagat ng libro\nat banayad na badge na may katayuan ng pagbabasa (porsyento o kumpleto).\n\nGumagana bilang layer sa ibabaw ng native na plugin na \"Cover browser\", na dapat\nnasa mosaic mode."
+
+msgid "Estante mosaico"
+msgstr "Mosaic na shelf"

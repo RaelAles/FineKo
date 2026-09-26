@@ -2,6 +2,8 @@ local WidgetContainer = require("ui/widget/container/widgetcontainer")
 local UIManager = require("ui/uimanager")
 local logger = require("logger")
 local _ = require("gettext")
+-- Traduções conforme o idioma escolhido no KOReader (ver fineko_i18n.lua).
+require("fineko_i18n").load(debug.getinfo(1, "S").source:match("@(.*/)"), "fineko")
 
 local Overlay = require("em_overlay")
 

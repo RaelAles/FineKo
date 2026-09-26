@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FineKo\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
+msgstr "Appliquer au livre : enregistre les métadonnées et la couverture sélectionnées."
+
+msgid "Aplicando capa…"
+msgstr "Application de la couverture…"
+
+msgid "Autor(es)"
+msgstr "Auteur(s)"
+
+msgid "Cancelar"
+msgstr "Annuler"
+
+msgid "%1 candidata(s) — tocar para ver e escolher"
+msgstr "%1 candidate(s) — appuyez pour voir et choisir"
+
+msgid "Não foi possível exibir a capa (formato não suportado)."
+msgstr "Impossible d'afficher la couverture (format non pris en charge)."
+
+msgid "escolha uma opção; toque longo mostra o texto completo"
+msgstr "choisissez une option ; appui long pour afficher le texte complet"
+
+msgid "Capa"
+msgstr "Couverture"
+
+msgid "%1 capa(s) — toque para visualizar; toque longo para escolher"
+msgstr "%1 couverture(s) — appuyez pour prévisualiser ; appui long pour choisir"
+
+msgid "Descrição"
+msgstr "Description"
+
+msgid "Baixando capas…"
+msgstr "Téléchargement des couvertures…"
+
+msgid "Editar"
+msgstr "Modifier"
+
+msgid "Editar manualmente…"
+msgstr "Modifier manuellement…"
+
+msgid "(vazio — tocar para adicionar)"
+msgstr "(vide — appuyez pour ajouter)"
+
+msgid "Erro ao salvar metadados: "
+msgstr "Erreur lors de l'enregistrement des métadonnées : "
+
+msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
+msgstr "Saisissez l'ISBN-10 ou l'ISBN-13 du livre.\nLaissez vide pour voir/modifier les métadonnées actuelles du document."
+
+msgid "ISBN:"
+msgstr "ISBN :"
+
+msgid "Palavras-chave"
+msgstr "Mots-clés"
+
+msgid "Idioma"
+msgstr "Langue"
+
+msgid "Metadados e capa atualizados com sucesso."
+msgstr "Métadonnées et couverture mises à jour avec succès."
+
+msgid "Agrega metadados de livros por ISBN de várias fontes gratuitas (Google Books, Open Library, Inventaire, Amazon), com edição campo a campo e escolha da capa de maior qualidade."
+msgstr "Agrège les métadonnées des livres par ISBN à partir de plusieurs sources gratuites (Google Books, Open Library, Inventaire, Amazon), avec modification champ par champ et choix de la couverture de meilleure qualité."
+
+msgid "Metadados encontrados"
+msgstr "Métadonnées trouvées"
+
+msgid "Atualizar metadados"
+msgstr "Mettre à jour les métadonnées"
+
+msgid "N/D"
+msgstr "N/D"
+
+msgid "Nenhuma capa válida encontrada."
+msgstr "Aucune couverture valide trouvée."
+
+msgid "nenhuma encontrada"
+msgstr "aucune trouvée"
+
+msgid "nenhuma válida"
+msgstr "aucune valide"
+
+msgid "Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."
+msgstr "Aucun livre trouvé pour cet ISBN.\nVérifiez la connexion et réessayez."
+
+msgid "%1 resultado(s); toque longo mostra o texto completo"
+msgstr "%1 résultat(s) ; appui long pour afficher le texte complet"
+
+msgid "Salvar"
+msgstr "Enregistrer"
+
+msgid "Metadados salvos.\nNão foi possível aplicar a capa."
+msgstr "Métadonnées enregistrées.\nImpossible d'appliquer la couverture."
+
+msgid "Buscar metadados"
+msgstr "Rechercher les métadonnées"
+
+msgid "Buscar"
+msgstr "Rechercher"
+
+msgid "Buscar metadados — ISBN"
+msgstr "Rechercher les métadonnées — ISBN"
+
+msgid "Buscando metadados…"
+msgstr "Recherche des métadonnées…"
+
+msgid "Série"
+msgstr "Série"
+
+msgid "Número na série"
+msgstr "Numéro dans la série"
+
+msgid "tocar para ver/trocar"
+msgstr "appuyer pour voir/changer"
+
+msgid "Título"
+msgstr "Titre"
+
+msgid "%1 imagem(ns) única(s) de %2 candidata(s) — fontes com a mesma capa foram agrupadas.\nToque para visualizar; toque longo para escolher."
+msgstr "%1 image(s) unique(s) sur %2 candidate(s) — les sources ayant la même couverture ont été regroupées.\nAppuyez pour prévisualiser ; appui long pour choisir."
+
+msgid "Metadados atualizados com sucesso."
+msgstr "Métadonnées mises à jour avec succès."
+
+msgid "Fechar"
+msgstr "Fermer"
+
+msgid "Destaque"
+msgstr "Surlignage"
+
+msgid "Exibe um destaque aleatório dos seus livros ao abrir o KOReader ou ao retornar da suspensão."
+msgstr "Affiche un surlignage aléatoire de vos livres à l'ouverture de KOReader ou au retour de veille."
+
+msgid "mais"
+msgstr "plus"
+
+msgid "Destaque aleatório"
+msgstr "Surlignage aléatoire"
+
+msgid "Nenhum destaque encontrado nos seus livros."
+msgstr "Aucun surlignage trouvé dans vos livres."
+
+msgid "Nota: %1"
+msgstr "Remarque : %1"
+
+msgid "Ver um destaque agora"
+msgstr "Afficher un surlignage maintenant"
+
+msgid "Mostrar ao abrir o KOReader"
+msgstr "Afficher à l'ouverture de KOReader"
+
+msgid "Mostrar ao retornar da suspensão"
+msgstr "Afficher au retour de veille"
+
+msgid "Selo de progresso/conclusão"
+msgstr "Badge de progression/achèvement"
+
+msgid "Faixa central com o título"
+msgstr "Bande centrale avec le titre"
+
+msgid "No modo mosaico, exibe sobre cada capa uma faixa central com o título\ndo livro e um selo sutil com o estado de leitura (porcentagem ou concluído).\n\nFunciona como camada sobre o plugin nativo \"Cover browser\", que precisa estar\nem modo mosaico."
+msgstr "En mode mosaïque, affiche sur chaque couverture une bande centrale avec le titre\ndu livre et un badge discret indiquant l'état de lecture (pourcentage ou terminé).\n\nFonctionne comme une couche au-dessus du plugin natif « Cover browser », qui doit être\nen mode mosaïque."
+
+msgid "Estante mosaico"
+msgstr "Étagère mosaïque"
