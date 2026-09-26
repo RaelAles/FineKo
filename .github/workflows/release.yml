@@ -12,27 +12,23 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Baixar o código
+      - name: Baixar o código da tag
         uses: actions/checkout@v4
 
-      - name: Empacotar cada plugin (.koplugin) em um zip
+      - name: Empacotar tudo em um único zip
         run: |
           set -e
-          found=0
-          for d in *.koplugin; do
-            [ -d "$d" ] || continue
-            found=1
-            zip -r "${d%.koplugin}.zip" "$d"
-          done
-          if [ "$found" -eq 0 ]; then
-            echo "Nenhuma pasta .koplugin encontrada."
-            exit 1
-          fi
-          echo "Zips gerados:"
-          ls -1 *.zip
+          NAME="$(basename "$GITHUB_REPOSITORY")-${GITHUB_REF_NAME}.zip"
+          # Exclusões: ajuste aqui conforme o projeto.
+          # .git e .github não fazem parte do produto; *.zip evita incluir o próprio arquivo.
+          zip -r "$NAME" . \
+            -x '.git/*' '.github/*' '*.zip'
+          echo "Arquivo gerado:"
+          unzip -l "$NAME"
+          echo "ZIP_NAME=$NAME" >> "$GITHUB_ENV"
 
-      - name: Publicar release com os zips
+      - name: Publicar release com o zip
         uses: softprops/action-gh-release@v2
         with:
-          files: "*.zip"
+          files: ${{ env.ZIP_NAME }}
           generate_release_notes: true
