@@ -1,6 +1,6 @@
 # FineKo
 
-[English](README.en.md) | **Português (Brasil)**
+**Português** | [English](README.en.md)
 
 Coleção de plugins para o [KOReader](https://koreader.rocks/) que melhora a
 organização, os metadados e a descoberta dos seus livros.
