@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Empacotar cada plugin (.koplugin) em um zip
+        run: |
+          set -e
+          found=0
+          for d in *.koplugin; do
+            [ -d "$d" ] || continue
+            found=1
+            zip -r "${d%.koplugin}.zip" "$d"
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "Nenhuma pasta .koplugin encontrada."
+            exit 1
+          fi
+          echo "Zips gerados:"
+          ls -1 *.zip
+
+      - name: Publicar release com os zips
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.zip"
+          generate_release_notes: true
