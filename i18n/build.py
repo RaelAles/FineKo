@@ -53,10 +53,11 @@ def build_po(domain, keys, lang):
         '"Content-Type: text/plain; charset=UTF-8\\n"',
         '"Content-Transfer-Encoding: 8bit\\n"',
         '"Language: %s\\n"' % lang,
-        # Sem cabeçalho Plural-Forms: o catálogo não usa ngettext/plurais, e
-        # repetir a fórmula do inglês em todos os idiomas seria incorreto
-        # (ex.: francês usa `n > 1`). Reintroduza-o por idioma se um dia
-        # houver mensagens plurais.
+        # O KOReader EXIGE o cabeçalho Plural-Forms: `gettext.parse_headers`
+        # (frontend/gettext.lua) faz `plural_forms:match(...)` sem checar nil e
+        # quebra o carregamento de qualquer plugin se ele faltar. O catálogo
+        # não usa ngettext/plurais, então a fórmula é inerte; usamos a genérica.
+        '"Plural-Forms: nplurals=2; plural=(n != 1);\\n"',
         "",
     ]
     for key in keys:
