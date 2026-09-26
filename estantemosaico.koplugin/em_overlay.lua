@@ -49,6 +49,19 @@ local function settingOn(key) -- nossas opções, default ligado
     return G_reader_settings:nilOrTrue("estantemosaico_" .. key)
 end
 
+-- Extensões que podem se acumular (ex.: book.tar.gz) antes da extensão real.
+-- Removemos essas camadas e a extensão final para obter um título legível.
+local COMPOUND_EXTS = { gz = true, tar = true, bz2 = true, xz = true, zip = true }
+local function stripExtension(filename)
+    local base = filename
+    while true do
+        local head, ext = base:match("^(.-)%.([%w]+)$")
+        if not head or head == "" then return base end
+        base = head
+        if not COMPOUND_EXTS[ext:lower()] then return base end
+    end
+end
+
 -- Título a exibir na faixa: preferimos o título dos metadados; se ainda não
 -- estiver no cache do BookInfoManager, caímos no nome do arquivo (sem extensão).
 -- Só memorizamos quando o bookinfo já é conhecido, para não "congelar" o
@@ -58,7 +71,7 @@ local function getTitle(item)
     local bookinfo = getBIM():getBookInfo(item.filepath)
     local title = bookinfo and bookinfo.title
     if not title or title == "" then
-        title = (item.text or ""):gsub("%.%w+$", "")
+        title = stripExtension(item.text or "")
     end
     if bookinfo then item._em_title = title end
     return title
@@ -134,26 +147,29 @@ local function paintBand(item, bb, td)
     text:paintTo(bb, td.x + pad, band_y + pad)
 end
 
--- Selo no canto superior direito: ✓ para concluído, "NN%" para em leitura.
+-- Selo no canto: ✓ para concluído, "NN%" para em leitura. Em layouts
+-- espelhados (RTL) o selo acompanha o espelhamento, como o marcador nativo.
 local function paintBadge(item, bb, td)
     local pad = Size.padding.tiny
     local margin = Size.padding.small
+    local mirrored = BD.mirroredUILayout()
     local pct = item.percent_finished
     local done = item.status == "complete" or (pct and pct >= DONE_THRESHOLD)
     if done then
-        local size = math.floor(td.w / 6)
-        local bx = td.x + td.w - size - margin
+        local size = math.max(1, math.floor(td.w / 6))
+        local bx = mirrored and (td.x + margin) or (td.x + td.w - size - margin)
         local by = td.y + margin
         fillTranslucent(bb, bx, by, size, size, BADGE_ALPHA)
         getCheckIcon(size):paintTo(bb, bx, by)
     elseif pct and pct > 0 then
-        -- nunca exibe "0%": progresso real é mostrado como pelo menos 1%
-        local n = math.max(1, math.floor(pct * 100 + 0.5))
+        -- nunca exibe "0%": progresso real é mostrado como pelo menos 1%;
+        -- e nunca "100%" sem estar concluído (limita a 99 até o limiar).
+        local n = math.max(1, math.min(99, math.floor(pct * 100 + 0.5)))
         local txt = getBadgeText(item, n)
         local ts = txt:getSize()
         local box_w = ts.w + 2 * pad
         local box_h = ts.h + 2 * pad
-        local bx = td.x + td.w - box_w - margin
+        local bx = mirrored and (td.x + margin) or (td.x + td.w - box_w - margin)
         local by = td.y + margin
         fillTranslucent(bb, bx, by, box_w, box_h, BADGE_ALPHA)
         bb:paintBorder(bx, by, box_w, box_h, Size.line.thin, Blitbuffer.COLOR_DARK_GRAY)
@@ -173,14 +189,41 @@ local function paintShortcut(item, bb, x, y)
     icon:paintTo(bb, x + ix, y)
 end
 
+-- Localiza o widget da capa dentro do item. O caminho interno do coverbrowser
+-- (item[1][1][1]) é estável hoje, mas frágil; se mudar, procuramos o primeiro
+-- descendente com "dimen" em vez de perder o overlay em silêncio.
+local function getCoverTarget(item)
+    local direct = item[1] and item[1][1] and item[1][1][1]
+    if direct and direct.dimen then return direct end
+    local seen = {}
+    local function find(node, depth)
+        if depth > 8 or type(node) ~= "table" or seen[node] then return nil end
+        seen[node] = true
+        if node ~= item and node.dimen then return node end
+        for i = 1, #node do
+            local found = find(node[i], depth + 1)
+            if found then return found end
+        end
+        return nil
+    end
+    return find(item, 0)
+end
+
 -- Desenha só os NOSSOS adornos (atalho + faixa + selo). Isolado para poder ser
 -- envolvido em pcall: um erro aqui degrada para "sem overlay", sem arriscar o
 -- loop de pintura do navegador.
 local function drawOverlays(item, bb, x, y)
     paintShortcut(item, bb, x, y)
     if item.is_directory then return end
-    local target = item[1] and item[1][1] and item[1][1][1]
-    if not target or not target.dimen then return end
+    local target = getCoverTarget(item)
+    if not target or not target.dimen then
+        if not Overlay._warned_layout then
+            Overlay._warned_layout = true
+            logger.dbg("Estante mosaico: layout da capa não reconhecido; "
+                .. "overlay ignorado em", item.text)
+        end
+        return
+    end
     local td = target.dimen
     -- A faixa só faz sentido sobre arte de capa real; em capas de texto
     -- (FakeCover) o título já aparece, então não duplicamos.
@@ -193,13 +236,24 @@ local function drawOverlays(item, bb, x, y)
 end
 
 -- Novo paintTo de cada MosaicMenuItem (chamado como item:paintTo(bb,x,y)).
+local last_overlay_error = 0
 function Overlay.paintItem(item, bb, x, y)
+    -- Paridade com o nativo: coordenadas não inteiras custam a diagnosticar.
+    if x ~= math.floor(x) or y ~= math.floor(y) then
+        logger.err("Estante mosaico: paintTo com coordenadas não inteiras:", x, y)
+    end
     -- Só a capa (sem os overlays nativos)
     InputContainer.paintTo(item, bb, x, y)
     local ok, err = pcall(drawOverlays, item, bb, x, y)
-    if not ok and not Overlay._warned then
-        Overlay._warned = true -- loga uma única vez, para não inundar o log
-        logger.warn("Estante mosaico: erro ao desenhar overlay:", err)
+    if not ok then
+        -- Rate-limit: um erro transitório não deve inundar o log, mas também
+        -- não deve silenciar erros futuros para sempre.
+        local now = os.time()
+        if now - last_overlay_error >= 5 then
+            last_overlay_error = now
+            logger.warn("Estante mosaico: erro ao desenhar overlay:", err,
+                debug.traceback())
+        end
     end
 end
 
@@ -222,7 +276,7 @@ function Overlay.apply()
         return false -- coverbrowser nativo indisponível
     end
     local orig_build = MosaicMenu._updateItemsBuildUI
-    MosaicMenu._updateItemsBuildUI = function(self, ...)
+    local wrapped_build = function(self, ...)
         local select_number = orig_build(self, ...)
         -- self.layout é um array de linhas, cada uma um array de MosaicMenuItem
         for _, row in ipairs(self.layout) do
@@ -240,6 +294,7 @@ function Overlay.apply()
         end
         return select_number
     end
+    MosaicMenu._updateItemsBuildUI = wrapped_build
     -- Re-aponta o FileChooser (filemanager) APENAS se ele já estiver usando o
     -- build de mosaico nativo (i.e., modo mosaico ativo). Assim não quebramos os
     -- modos lista/clássico, e cobrimos a ordem em que o coverbrowser inicia
@@ -248,10 +303,31 @@ function Overlay.apply()
     -- depois, idem.
     local FileChooser = require("ui/widget/filechooser")
     if FileChooser._updateItemsBuildUI == orig_build then
-        FileChooser._updateItemsBuildUI = MosaicMenu._updateItemsBuildUI
+        FileChooser._updateItemsBuildUI = wrapped_build
     end
+    Overlay._orig_build = orig_build
+    Overlay._wrapped_build = wrapped_build
     Overlay._applied = true
     return true
+end
+
+-- Reverte o monkeypatch. O KOReader normalmente pede restart ao desativar um
+-- plugin, mas expor o teardown evita que o overlay sobreviva ao desligamento
+-- quando não há reinício.
+function Overlay.restore()
+    if not Overlay._applied then return end
+    local ok, MosaicMenu = pcall(require, "mosaicmenu")
+    if ok and type(MosaicMenu) == "table"
+            and MosaicMenu._updateItemsBuildUI == Overlay._wrapped_build then
+        MosaicMenu._updateItemsBuildUI = Overlay._orig_build
+    end
+    local ok_fc, FileChooser = pcall(require, "ui/widget/filechooser")
+    if ok_fc and FileChooser._updateItemsBuildUI == Overlay._wrapped_build then
+        FileChooser._updateItemsBuildUI = Overlay._orig_build
+    end
+    Overlay._applied = false
+    Overlay._orig_build = nil
+    Overlay._wrapped_build = nil
 end
 
 return Overlay

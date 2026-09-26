@@ -1,12 +1,14 @@
 local WidgetContainer = require("ui/widget/container/widgetcontainer")
+local UIManager = require("ui/uimanager")
 local logger = require("logger")
 local _ = require("gettext")
 
 local Overlay = require("em_overlay")
 
 -- O PluginLoader carrega o módulo uma vez, mas FileManager e ReaderUI instanciam
--- a classe separadamente. Guard global para aplicar o patch só uma vez.
-local patches_applied = false
+-- a classe separadamente. Não guardamos flag local: a idempotência fica a cargo
+-- de Overlay._applied, e assim o patch é tentado de novo caso o coverbrowser
+-- nativo ainda não esteja disponível no primeiro init.
 
 local EstanteMosaico = WidgetContainer:extend{
     name = "estantemosaico",
@@ -18,20 +20,23 @@ function EstanteMosaico:init()
         self.ui.menu:registerToMainMenu(self)
     end
 
-    if not patches_applied then
-        patches_applied = true
-        -- Overlay do mosaico (faixa com o título + selo de progresso/conclusão).
-        -- Depende do plugin nativo "Cover browser" em modo mosaico.
-        if not Overlay.apply() then
-            logger.warn("Estante mosaico: coverbrowser nativo indisponível; "
-                .. "ative o plugin 'Cover browser' em modo mosaico.")
-        end
+    -- Overlay do mosaico (faixa com o título + selo de progresso/conclusão).
+    -- Depende do plugin nativo "Cover browser" em modo mosaico. Overlay.apply()
+    -- é idempotente e retorna false (permitindo nova tentativa) enquanto o
+    -- coverbrowser não estiver carregado/disponível.
+    if not Overlay.apply() then
+        logger.warn("Estante mosaico: coverbrowser nativo indisponível; "
+            .. "ative o plugin 'Cover browser' em modo mosaico.")
     end
 end
 
 function EstanteMosaico:refresh()
-    if self.ui and self.ui.file_chooser then
-        self.ui.file_chooser:updateItems(1, true)
+    -- Apenas repinta: paintItem/settingOn leem as opções no momento da pintura,
+    -- então não é preciso reconstruir os itens (updateItems) para um simples
+    -- liga/desliga.
+    local fc = self.ui and self.ui.file_chooser
+    if fc then
+        UIManager:setDirty(fc, "ui")
     end
 end
 
