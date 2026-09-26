@@ -15,6 +15,16 @@ jobs:
       - name: Baixar o código da tag
         uses: actions/checkout@v4
 
+      - name: Validar sintaxe dos plugins (luajit)
+        run: |
+          set -e
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq luajit
+          find . -name '*.lua' -not -path './.git/*' -print0 \
+            | while IFS= read -r -d '' f; do
+                luajit -e "assert(loadfile('$f'))" || exit 1
+              done
+
       - name: Empacotar tudo em um único zip
         run: |
           set -e

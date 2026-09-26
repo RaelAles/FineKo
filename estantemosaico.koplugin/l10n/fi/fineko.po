@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Käytä kirjaan: tallentaa valitut metatiedot ja kansikuvan."
@@ -56,6 +55,9 @@ msgstr "Virhe metatietojen tallennuksessa: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Anna kirjan ISBN-10 tai ISBN-13.\nJätä tyhjäksi, jos haluat katsella/muokata asiakirjan nykyisiä metatietoja."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "Virheellinen ISBN. Anna 10 tai 13 numeroa (vain numeroita)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 tulos/tulosta; näytä koko teksti pitämällä painettuna"
 
 msgid "Salvar"
 msgstr "Tallenna"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Metatietoja ei voitu tallentaa."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metatiedot tallennettu.\nKansikuvaa ei voitu käyttää."

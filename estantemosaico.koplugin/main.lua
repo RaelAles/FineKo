@@ -71,4 +71,15 @@ function EstanteMosaico:addToMainMenu(menu_items)
     }
 end
 
+-- Teardown defensivo do monkeypatch. O KOReader exige reiniciar ao desativar
+-- um plugin, então `Overlay.restore()` não é chamado pelo PluginLoader; aqui
+-- ele é acionado quando a instância da ESTANTE é destruída. O guarda por
+-- documento evita desfazer o overlay no fechamento do LEITOR (senão a estante
+-- voltaria sem overlay ao sair de um livro).
+function EstanteMosaico:onCloseWidget()
+    if self.ui and not self.ui.document then
+        Overlay.restore()
+    end
+end
+
 return EstanteMosaico

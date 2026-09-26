@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fil\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Ilapat sa libro: sine-save ang napiling metadata at pabalat."
@@ -56,6 +55,9 @@ msgstr "Error sa pag-save ng metadata: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Ilagay ang ISBN-10 o ISBN-13 ng libro.\nIwanang blangko para tingnan/i-edit ang kasalukuyang metadata ng dokumento."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "Hindi wastong ISBN. Maglagay ng 10 o 13 na digit (mga numero lamang)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 resulta; pindutin nang matagal para ipakita ang buong teksto"
 
 msgid "Salvar"
 msgstr "I-save"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Hindi maisave ang metadata."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Na-save ang metadata.\nHindi nailapat ang pabalat."

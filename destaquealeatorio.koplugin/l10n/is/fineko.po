@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: is\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Beita á bók: vistar valin lýsigögn og forsíðu."
@@ -56,6 +55,9 @@ msgstr "Villa við vistun lýsigagna: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Sláðu inn ISBN-10 eða ISBN-13 bókarinnar.\nSkildu eftir autt til að skoða/breyta núverandi lýsigögnum skjalsins."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "Ógilt ISBN. Sláðu inn 10 eða 13 tölur (aðeins tölur)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 niðurstaða(/niðurstöður); haltu inni til að sýna allan textann
 
 msgid "Salvar"
 msgstr "Vista"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Gat ekki vistað lýsigögnin."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Lýsigögn vistuð.\nEkki tókst að beita forsíðunni."

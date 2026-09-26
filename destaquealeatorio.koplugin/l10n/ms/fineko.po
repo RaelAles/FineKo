@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ms\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Gunakan pada buku: simpan metadata dan kulit yang dipilih."
@@ -56,6 +55,9 @@ msgstr "Ralat semasa menyimpan metadata: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Masukkan ISBN-10 atau ISBN-13 buku.\nBiarkan kosong untuk melihat/mengedit metadata dokumen semasa."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "ISBN tidak sah. Masukkan 10 atau 13 digit (nombor sahaja)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 hasil; tekan lama untuk paparkan teks penuh"
 
 msgid "Salvar"
 msgstr "Simpan"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Tidak dapat menyimpan metadata."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metadata disimpan.\nTidak dapat menggunakan kulit."

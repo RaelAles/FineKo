@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: af\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Pas op boek toe: stoor die gekose metadata en voorblad."
@@ -56,6 +55,9 @@ msgstr "Fout met die stoor van metadata: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Voer die boek se ISBN-10 of ISBN-13 in.\nLos leeg om die dokument se huidige metadata te bekyk/wysig."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "Ongeldige ISBN. Voer 10 of 13 syfers in (slegs syfers)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 resultaat/resultate; hou ingedruk om die volledige teks te wys"
 
 msgid "Salvar"
 msgstr "Stoor"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Kon nie die metadata stoor nie."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metadata gestoor.\nKon nie die voorblad toepas nie."

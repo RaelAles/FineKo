@@ -35,7 +35,9 @@ local http            = require("socket.http")
 local ltn12           = require("ltn12")
 local socketutil      = require("socketutil")
 local json            = require("json")
-local _               = require("gettext")
+local logger          = require("logger")
+local GetText         = require("gettext")
+local _               = GetText
 -- Traduções conforme o idioma escolhido no KOReader (ver fineko_i18n.lua).
 require("fineko_i18n").load(debug.getinfo(1, "S").source:match("@(.*/)"), "fineko")
 local T               = require("ffi/util").template
@@ -88,6 +90,11 @@ local AMAZON_DOMAINS = {
 for _i, d in ipairs(AMAZON_DOMAINS) do
     if not SOURCE_BONUS[d.id] then SOURCE_BONUS[d.id] = 2.2 end
 end
+
+-- Limite de domínios Amazon por busca. A lista completa (14 domínios, com
+-- /dp + /s + eventual Wayback cada) tornava a busca longa demais; 4 cobre o
+-- idioma alvo (primeiro na ordem) e os maiores mercados.
+local MAX_AMAZON_DOMAINS = 4
 
 -- Ordena a cascata: domínios no idioma alvo primeiro, demais na ordem da lista.
 local function orderedAmazonDomains(target_lang)
@@ -205,21 +212,41 @@ local function clearCoverCache()
     end)
 end
 
--- Baixa uma URL diretamente para um arquivo. Devolve true em caso de HTTP 200.
+-- Teto de segurança para capas vindas de scraping (Bing/Amazon): evita encher
+-- o cache com um arquivo gigante ou um fluxo sem fim.
+local MAX_COVER_BYTES = 20 * 1024 * 1024
+
+-- Baixa uma URL diretamente para um arquivo. Devolve true em caso de HTTP 200
+-- com corpo não vazio; em qualquer outro caso remove o arquivo parcial.
 local function httpDownloadFile(url, path)
     local f = io.open(path, "wb")
     if not f then return false end
     socketutil:set_timeout(15, 60)
+    local received = 0
+    local file_sink = ltn12.sink.file(f)
     local ok, code = pcall(function()
         return require("socket").skip(1, http.request({
             url = url,
-            sink = ltn12.sink.file(f), -- ltn12 fecha o arquivo no fim
+            sink = function(chunk, err)
+                if chunk and received + #chunk > MAX_COVER_BYTES then
+                    return nil, "capa maior que o limite"
+                end
+                received = received + (chunk and #chunk or 0)
+                return file_sink(chunk, err)
+            end,
             headers = HEADERS_BROWSER,
             redirect = true,
         }))
     end)
     socketutil:reset_timeout()
-    return ok and code == 200
+    -- ltn12.sink.file fecha o arquivo ao receber nil no fim do stream, mas
+    -- numa falha antes do corpo o arquivo ficaria aberto até o GC.
+    if io.type(f) == "file" then f:close() end
+    if ok and code == 200 and received > 0 then
+        return true
+    end
+    os.remove(path)
+    return false
 end
 
 --==========================================================================--
@@ -404,9 +431,21 @@ function AtualizarMetadados:showISBNDialog(file)
               callback = function() UIManager:close(dialog) end },
             { text = _("Buscar"), is_enter_default = true,
               callback = function()
-                  local isbn = dialog:getInputText():gsub("[%s%-]", "")
+                  local isbn = dialog:getInputText():gsub("[%s%-]", ""):upper()
                   UIManager:close(dialog)
                   if isbn ~= "" then
+                      -- ISBN-10: 9 dígitos + dígito/X; ISBN-13: 13 dígitos.
+                      -- Sem validar, caracteres como &, / e ? quebrariam as
+                      -- query strings dos endpoints (requisições malformadas).
+                      local valid = (#isbn == 10 and isbn:match("^%d%d%d%d%d%d%d%d%d[%dX]$"))
+                          or (#isbn == 13 and isbn:match("^%d+$"))
+                      if not valid then
+                          UIManager:show(InfoMessage:new{
+                              text = _("ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."),
+                              icon = "notice-warning",
+                          })
+                          return
+                      end
                       self:fetchMetadata(file, isbn)
                   else
                       -- Sem ISBN: pula a busca e abre os metadados atuais.
@@ -419,6 +458,19 @@ function AtualizarMetadados:showISBNDialog(file)
     dialog:onShowKeyboard()
 end
 
+-- Extrai o primeiro ISBN (formato 978/979…) de `identifiers`, que pode vir
+-- como string ou lista dependendo do documento/provedor.
+local function extractISBN(identifiers)
+    if identifiers == nil then return nil end
+    local ids
+    if type(identifiers) == "table" then
+        ids = table.concat(identifiers, " ")
+    else
+        ids = tostring(identifiers)
+    end
+    return ids:match("97[89][%d%-]+%d")
+end
+
 -- Metadados atuais do documento: doc_props (gravados na primeira abertura ou
 -- extraídos do próprio arquivo) com os custom_props aplicados por cima — o
 -- mesmo que a tela nativa "Informações do livro" exibe.
@@ -428,8 +480,23 @@ function AtualizarMetadados:getLocalProps(file)
         local ok, p = pcall(self.ui.bookinfo.getDocProps, self.ui.bookinfo, file)
         if ok and type(p) == "table" then original = p end
     end
+    -- `extendProps` só copia as chaves de BookInfo.props (title, authors, …);
+    -- `identifiers` fica de fora, então preservamos explicitamente para
+    -- conseguir extrair o ISBN local.
+    local identifiers = original and original.identifiers
+    if identifiers == nil then
+        -- Alguns caminhos de getDocProps (ex.: coverbrowser) não devolvem
+        -- identifiers; o doc_props gravado no sidecar é a fonte garantida.
+        local ok_ds, ds = pcall(DocSettings.open, file)
+        if ok_ds and ds then
+            local saved = ds:readSetting("doc_props")
+            if type(saved) == "table" then identifiers = saved.identifiers end
+        end
+    end
     local ok, props = pcall(FileManagerBookInfo.extendProps, original, file)
-    return (ok and type(props) == "table") and props or original or {}
+    props = (ok and type(props) == "table") and props or original or {}
+    if identifiers ~= nil then props.identifiers = identifiers end
+    return props
 end
 
 -- Monta a estrutura "merged" da janela de resultado a partir dos metadados
@@ -444,9 +511,8 @@ function AtualizarMetadados:buildLocalMerged(props)
             merged._field_options[f.key] = { { value = v, sources = { "documento" } } }
         end
     end
-    if props.identifiers then
-        merged.isbn = tostring(props.identifiers):match("97[89][%d%-]+%d")
-    end
+    local isbn = extractISBN(props.identifiers)
+    if isbn then merged.isbn = isbn end
     return merged
 end
 
@@ -740,7 +806,9 @@ function AtualizarMetadados:searchOpenLibrary(isbn)
 end
 
 function AtualizarMetadados:searchInventaire(isbn, target_lang)
-    target_lang = target_lang or "pt"
+    -- Sem idioma detectado no ISBN, usa o idioma ativo da UI só para escolher
+    -- descrições/rótulos mais prováveis; chaves nulas caem no fallback abaixo.
+    target_lang = target_lang or normalizeLang(GetText.current_lang)
     local url = "https://inventaire.io/api/entities/by-uris?uris=isbn:" .. isbn
     local body = httpGet(url)
     if not body then return nil end
@@ -1040,103 +1108,166 @@ end
 -- Orquestração da busca
 --==========================================================================--
 
+-- Busca assíncrona: cada fonte roda em um tick separado do UIManager, para a
+-- UI processar toques (inclusive o cancelamento) entre as requisições de rede.
+-- Antes tudo rodava síncrono e uma rede ruim podia congelar a leitura por
+-- minutos, sem chance de cancelar.
 function AtualizarMetadados:fetchMetadata(file, isbn)
     if NetworkMgr:willRerunWhenOnline(function() self:fetchMetadata(file, isbn) end) then
         return
     end
 
-    local loading = InfoMessage:new{ text = _("Buscando metadados…"), dismissable = false }
-    UIManager:show(loading)
-    UIManager:forceRePaint()
-
-    local all_results = {}
-    local function try(source_name, fn)
-        local ok, m = pcall(fn)
-        if ok and m then
-            local entry = { data = m, source = source_name }
-            table.insert(all_results, entry)
-            return entry
-        end
+    -- Cancela uma busca anterior ainda em andamento (evita duas janelas).
+    local prev = self._fetch_state
+    if prev and not prev.done then
+        prev.cancelled = true
+        self:_closeFetchLoading(prev)
     end
 
     -- Idioma esperado da edição, deduzido do próprio ISBN (offline, confiável):
     -- guia a preferência de fontes e a coerência linguística da agregação.
     local target_lang = detectLanguageFromISBN(isbn)
+    local state = {
+        file = file,
+        isbn = isbn,
+        target_lang = target_lang,
+        all_results = {},
+        amazon_results = {},
+        -- Domínios do idioma alvo primeiro; a lista é percorrida até
+        -- MAX_AMAZON_DOMAINS (ou até a própria Amazon preencher o essencial).
+        amazon_domains = orderedAmazonDomains(target_lang),
+        amazon_pos = 0,
+        step = 1, -- 1=Google, 2=Amazon, 3=Open Library, 4=Inventaire, 5=Bing, 6=fim
+        cancelled = false,
+        done = false,
+    }
+    self._fetch_state = state
 
-    -- TODAS as fontes são consultadas — cada uma contribui com suas opções e
-    -- a exibição agrupa valores repetidos, então só o diferente vira opção
-    -- nova. A "cascata" com parada antecipada vale DENTRO de cada fonte: o
-    -- Google para no primeiro endpoint que responde; a Amazon percorre os
-    -- domínios até ela própria ter fornecido os campos essenciais.
+    state.loading = InfoMessage:new{
+        text = _("Buscando metadados…"),
+        dismissable = true, -- toque cancela entre uma fonte e a seguinte
+        dismiss_callback = function() state.cancelled = true end,
+    }
+    UIManager:show(state.loading)
+    UIManager:forceRePaint()
+    UIManager:nextTick(function() self:_fetchStep(state) end)
+end
 
-    -- Título confiável (trava anti-mismatch da Amazon) e autor (consulta do
-    -- Bing), com o que já foi coletado — preferindo fonte no idioma alvo.
-    local function currentHints()
-        local trusted, author
-        for _i, r in ipairs(all_results) do
-            if (not target_lang or r.data.language == target_lang) and r.data.title then
-                trusted = trusted or r.data.title
-                author  = author or r.data.authors
-            end
-        end
-        for _i, r in ipairs(all_results) do -- fallback: qualquer fonte
+function AtualizarMetadados:_closeFetchLoading(state)
+    if not state.loading then return end
+    -- Zera o callback para o fechamento programático não marcar como cancelado.
+    state.loading.dismiss_callback = nil
+    if UIManager:isWidgetShown(state.loading) then
+        UIManager:close(state.loading)
+    end
+end
+
+-- Título confiável (trava anti-mismatch da Amazon) e autor (consulta do Bing)
+-- dentre o que já foi coletado — preferindo uma fonte no idioma alvo.
+function AtualizarMetadados:_currentHints(state)
+    local trusted, author
+    for _i, r in ipairs(state.all_results) do
+        if (not state.target_lang or r.data.language == state.target_lang) and r.data.title then
             trusted = trusted or r.data.title
             author  = author or r.data.authors
         end
-        return trusted, author
     end
-
-    -- 1. Google — cascata interna: feed GData → API v1 (complementa o que
-    -- faltou) → viewapi.
-    try("google", function() return self:searchGoogleBooks(isbn) end)
-
-    -- 2. Amazon — cascata interna de domínios (o do idioma do livro
-    -- primeiro): avança para o próximo domínio apenas enquanto A PRÓPRIA
-    -- Amazon não tiver fornecido os campos essenciais.
-    local amazon_results = {}
-    for _i, d in ipairs(orderedAmazonDomains(target_lang)) do
-        if essentialsComplete(amazon_results) then break end
-        local trusted_title = currentHints()
-        local entry = try(d.id, function()
-            return self:searchAmazon(d.domain, d.lang, isbn, trusted_title)
-        end)
-        if entry then table.insert(amazon_results, entry) end
+    for _i, r in ipairs(state.all_results) do -- fallback: qualquer fonte
+        trusted = trusted or r.data.title
+        author  = author or r.data.authors
     end
+    return trusted, author
+end
 
-    -- 3. Open Library — sempre.
-    try("openlibrary", function() return self:searchOpenLibrary(isbn) end)
-
-    -- 4. Inventaire — sempre.
-    try("inventaire", function() return self:searchInventaire(isbn, target_lang) end)
-
-    -- 5. Busca de imagens (Bing), apenas se nenhuma fonte trouxe capa
-    -- (fonte só de capa, qualidade variável: é o último recurso).
-    local has_cover = false
-    for _i, r in ipairs(all_results) do
-        if r.data.cover_candidates and #r.data.cover_candidates > 0 then
-            has_cover = true
-            break
-        end
-    end
-    if not has_cover then
-        local trusted_title, hint_author = currentHints()
-        try("bing_images", function()
-            return self:searchBingImages(isbn, trusted_title, hint_author)
-        end)
-    end
-
-    UIManager:close(loading)
-
-    if #all_results == 0 then
-        UIManager:show(InfoMessage:new{
-            text = _("Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."),
-            icon = "notice-info",
-        })
+-- Executa UM passo da busca e agenda o próximo. Retorna ao loop do UIManager
+-- entre passos, dando chance de a UI tratar o toque de cancelamento.
+function AtualizarMetadados:_fetchStep(state)
+    if state.done then return end
+    if state.cancelled then
+        state.done = true
+        if self._fetch_state == state then self._fetch_state = nil end
+        self:_closeFetchLoading(state)
         return
     end
 
-    local merged = self:mergeResults(all_results, isbn, target_lang)
-    self:showResultWindow(file, merged)
+    local function try(source_name, fn)
+        local ok, m = pcall(fn)
+        if ok and m then
+            local entry = { data = m, source = source_name }
+            table.insert(state.all_results, entry)
+            return entry
+        end
+        if not ok then
+            -- Loga sem a URL/ISBN completo (privacidade), só o suficiente
+            -- para diagnosticar por que uma fonte falhou.
+            logger.warn("Atualizar metadados: fonte", source_name,
+                "falhou:", tostring(m))
+        end
+    end
+
+    if state.step == 1 then
+        -- 1. Google — cascata interna: feed GData → API v1 → viewapi.
+        try("google", function() return self:searchGoogleBooks(state.isbn) end)
+        state.step = 2
+    elseif state.step == 2 then
+        -- 2. Amazon — no máximo MAX_AMAZON_DOMAINS domínios, parando quando a
+        -- própria Amazon já preencheu os campos essenciais.
+        local d = state.amazon_domains[state.amazon_pos + 1]
+        if d and state.amazon_pos < MAX_AMAZON_DOMAINS
+                and not essentialsComplete(state.amazon_results) then
+            state.amazon_pos = state.amazon_pos + 1
+            local trusted_title = self:_currentHints(state)
+            local entry = try(d.id, function()
+                return self:searchAmazon(d.domain, d.lang, state.isbn, trusted_title)
+            end)
+            if entry then table.insert(state.amazon_results, entry) end
+        else
+            state.step = 3
+        end
+    elseif state.step == 3 then
+        -- 3. Open Library — sempre.
+        try("openlibrary", function() return self:searchOpenLibrary(state.isbn) end)
+        state.step = 4
+    elseif state.step == 4 then
+        -- 4. Inventaire — sempre.
+        try("inventaire", function() return self:searchInventaire(state.isbn, state.target_lang) end)
+        state.step = 5
+    elseif state.step == 5 then
+        -- 5. Busca de imagens (Bing), apenas se nenhuma fonte trouxe capa
+        -- (fonte só de capa, qualidade variável: é o último recurso).
+        local has_cover = false
+        for _i, r in ipairs(state.all_results) do
+            if r.data.cover_candidates and #r.data.cover_candidates > 0 then
+                has_cover = true
+                break
+            end
+        end
+        if not has_cover then
+            local trusted_title, hint_author = self:_currentHints(state)
+            try("bing_images", function()
+                return self:searchBingImages(state.isbn, trusted_title, hint_author)
+            end)
+        end
+        state.step = 6
+    else
+        state.done = true
+        if self._fetch_state == state then self._fetch_state = nil end
+        self:_closeFetchLoading(state)
+
+        if #state.all_results == 0 then
+            UIManager:show(InfoMessage:new{
+                text = _("Nenhum livro encontrado para este ISBN.\nVerifique a conexão e tente novamente."),
+                icon = "notice-info",
+            })
+            return
+        end
+
+        local merged = self:mergeResults(state.all_results, state.isbn, state.target_lang)
+        self:showResultWindow(state.file, merged)
+        return
+    end
+
+    UIManager:nextTick(function() self:_fetchStep(state) end)
 end
 
 -- Agrega os resultados com COERÊNCIA DE IDIOMA: para cada campo escolhe a fonte
@@ -1322,6 +1453,9 @@ function AtualizarMetadados:showResultWindow(file, merged)
         title_bar_align = "center",
         value_overflow_align = "right",
         kv_pairs = kv_pairs,
+        close_callback = function()
+            self_ref._result_window = nil
+        end,
         title_bar_left_icon = "check",
         title_bar_left_icon_tap_callback = function()
             self_ref:applyMetadata(file, merged)
@@ -1669,6 +1803,7 @@ end
 --==========================================================================--
 
 function AtualizarMetadados:applyMetadata(file, merged)
+    local flush_failed = false
     local ok, err = pcall(function()
         local existing = DocSettings:findCustomMetadataFile(file)
         local cds = DocSettings.openSettingsFile(existing)
@@ -1684,15 +1819,28 @@ function AtualizarMetadados:applyMetadata(file, merged)
             if v ~= nil and v ~= "" then props[f.key] = v end
         end
         cds:saveSetting("custom_props", props)
-        cds:flushCustomMetadata(file)
+        -- flushCustomMetadata devolve true só quando conseguiu gravar o
+        -- sidecar (disco cheio/somente leitura => nil): sem checar, o plugin
+        -- anunciava sucesso mesmo sem ter salvo nada.
+        if cds:flushCustomMetadata(file) ~= true then
+            flush_failed = true
+            error("flush_failed")
+        end
 
         UIManager:broadcastEvent(Event:new("InvalidateMetadataCache", file))
         UIManager:broadcastEvent(Event:new("BookMetadataChanged"))
     end)
 
     if not ok then
+        local text
+        if flush_failed then
+            logger.warn("Atualizar metadados: flushCustomMetadata falhou para", file)
+            text = _("Não foi possível salvar os metadados.")
+        else
+            text = _("Erro ao salvar metadados: ") .. tostring(err)
+        end
         UIManager:show(InfoMessage:new{
-            text = _("Erro ao salvar metadados: ") .. tostring(err),
+            text = text,
             icon = "notice-warning",
         })
         return -- mantém a janela aberta para o usuário tentar de novo
@@ -1730,13 +1878,20 @@ function AtualizarMetadados:buildStandardFilename(file, merged)
 
     local base = (author and author ~= "") and (author .. " - " .. title) or title
     base = base:gsub("%s*:%s*", " - ")
-    base = base:gsub('[/\\%*%?"<>|%c]', " "):gsub("%s+", " ")
+    -- Não usar %c aqui: ele é dependente da locale e pode capturar bytes UTF-8
+    -- altos. Removemos explicitamente os controles C0/DEL e os proibidos.
+    base = base:gsub('[/\\%*%?"<>|]', " ")
+    base = base:gsub("[%z\1-\31\127]", " ")
+    base = base:gsub("%s+", " ")
     base = trim(base)
     if #base > 120 then
         -- Trunca em bytes e descarta um caractere UTF-8 possivelmente partido.
         base = base:sub(1, 120):gsub("[\128-\191]+$", ""):gsub("[\194-\244]$", "")
         base = trim(base)
     end
+    -- Ponto/espaço no fim são reservados em FAT/exFAT (o Windows os remove
+    -- silenciosamente): limpá-los evita nomes que "mudam" ao copiar.
+    base = base:gsub("[%.%s]+$", "")
     if base == "" then return nil end
 
     local ext = file:match("%.(%w+)$")
@@ -1791,7 +1946,7 @@ function AtualizarMetadados:applyBestCover(file, merged)
     })
 end
 
--- Exposto apenas para a suíte de testes automatizados (ver test.lua).
+-- Funções puras expostas para inspeção/testes; não fazem parte da API pública.
 AtualizarMetadados._detectLanguageFromISBN = function(_, isbn) return detectLanguageFromISBN(isbn) end
 AtualizarMetadados._normalizeLang          = function(_, c) return normalizeLang(c) end
 AtualizarMetadados._titlesSimilar          = function(_, a, b) return titlesSimilar(a, b) end

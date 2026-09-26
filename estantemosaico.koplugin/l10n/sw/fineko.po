@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sw\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Tumia kwa kitabu: huhifadhi metadata na jalada zilizochaguliwa."
@@ -56,6 +55,9 @@ msgstr "Hitilafu wakati wa kuhifadhi metadata: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Weka ISBN-10 au ISBN-13 ya kitabu.\nAcha wazi ili kuona/kuhariri metadata ya sasa ya hati."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "ISBN si sahihi. Weka tarakimu 10 au 13 (namba pekee)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 matokeo; bonyeza kwa muda mrefu ili kuonyesha maandishi kamili"
 
 msgid "Salvar"
 msgstr "Hifadhi"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Imeshindwa kuhifadhi metadata."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metadata imehifadhiwa.\nImeshindwa kutumia jalada."

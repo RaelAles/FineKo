@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lb\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Um Buch uwenden: späichert déi ausgewielt Metadaten an d'Couverture."
@@ -56,6 +55,9 @@ msgstr "Feeler beim Späichere vun de Metadaten: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Gëff d'ISBN-10 oder ISBN-13 vum Buch an.\nLooss eidel fir déi aktuell Metadaten vum Dokument ze gesinn/ze änneren."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "Ongültegen ISBN. Gitt 10 oder 13 Zifferen an (nëmmen Zuelen)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 Resultat(er); laang drécken fir de ganze Text ze weisen"
 
 msgid "Salvar"
 msgstr "Späicheren"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "D'Metadaten konnten net gespäichert ginn."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metadaten gespäichert.\nD'Couverture konnt net ugewannt ginn."

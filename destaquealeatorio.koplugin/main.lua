@@ -68,8 +68,9 @@ local scan_changed = false  -- o índice mudou nesta varredura? (define se salva
 local scan_stack = nil      -- pilha de diretórios a visitar
 local scan_seen = nil       -- conjunto de caminhos vistos (p/ podar removidos)
 
--- Semente do RNG (uma vez, no carregamento do módulo).
-math.randomseed(os.time())
+-- O KOReader já semeia o RNG global no boot (frontend/random.lua); não
+-- reseedamos aqui para não interferir em outros consumidores.
+require("random")
 
 local RandomHighlight = WidgetContainer:extend{
     name = "destaquealeatorio",
@@ -118,14 +119,22 @@ local function extractHighlights(annotations, bookmarks, highlights)
     return items
 end
 
--- Reconstrói o caminho do livro a partir do caminho do sidecar.
--- Ex.: /foo/Livro.sdr/metadata.epub.lua  ->  /foo/Livro.epub
--- (o diretório .sdr NÃO inclui a extensão; ela vem do nome metadata.<ext>.lua).
+-- Reconstrói o caminho do livro a partir do caminho do sidecar nos modos
+-- "doc" (ao lado do livro) e "dir" (pasta central `<data>/docsettings/<caminho>`).
+-- O modo "hash" NÃO é indexado (ver scanRoots): o nome do sidecar é o MD5 e
+-- não há mapa de volta ao arquivo.
 local function docPathFromMetadata(meta_path)
     local dir, ext = meta_path:match("^(.*)/metadata%.(.+)%.lua$")
     if not dir then return nil end
     local base = dir:match("^(.*)%.sdr$")
     if not base then return nil end
+    -- No modo "dir" o caminho real foi prefixado com o diretório central;
+    -- removê-lo devolve o caminho absoluto do livro.
+    local central = DataStorage:getDocSettingsDir():gsub("/+$", "")
+    if central ~= "" and base:sub(1, #central) == central
+            and base:sub(#central + 1, #central + 1) == "/" then
+        base = base:sub(#central + 1)
+    end
     return base .. "." .. ext
 end
 
@@ -159,15 +168,19 @@ local function loadItems(doc_path)
 end
 
 -- Locais varridos = os locais de sidecar `.sdr` que o KOReader usa (DocSettings):
---   * "doc"  : ao lado do livro       -> raiz = home_dir (+ home_dirs)
---   * "dir"  : pasta central          -> DataStorage:getDocSettingsDir()
---   * "hash" : pasta central por hash -> DataStorage:getDocSettingsHashDir()
+--   * "doc" : ao lado do livro -> raiz = home_dir (+ home_dirs)
+--   * "dir" : pasta central    -> DataStorage:getDocSettingsDir()
 -- Só inclui as que existem; descarta raízes aninhadas em outra (não varrer 2x).
--- LIMITAÇÃO CONHECIDA: a pasta legada `history/` (DataStorage:getHistoryDir()) NÃO
--- é varrida — lá os arquivos são planos (`[#caminho#] Nome.ext.lua`), fora de
--- `.sdr` e fora do padrão `metadata.<ext>.lua`, então nem a descoberta nem
--- docPathFromMetadata os reconhecem. É um local depreciado (o KOReader migrou dele
--- há anos) que só sobrevive como último candidato em `DocSettings:open`.
+-- LIMITAÇÕES CONHECIDAS:
+--   * o modo "hash" (DataStorage:getDocSettingsHashDir()) NÃO é varrido: o nome
+--     do sidecar é o MD5 do caminho do livro e não há como recuperar o arquivo,
+--     então indexá-lo gerava entradas que nunca resolviam (inflando total_count
+--     e desperdiçando as tentativas de pickFromIndex). O fallback
+--     pickFromHistory() cobre os livros do histórico nesse modo.
+--   * a pasta legada `history/` (DataStorage:getHistoryDir()) também NÃO é
+--     varrida — lá os arquivos são planos (`[#caminho#] Nome.ext.lua`), fora de
+--     `.sdr` e fora do padrão `metadata.<ext>.lua`. É um local depreciado
+--     (migrado há anos) que sobrevive como último candidato em `DocSettings:open`.
 local function scanRoots()
     local raw, seen = {}, {}
     local function add(dir)
@@ -183,7 +196,6 @@ local function scanRoots()
         for _, d in ipairs(home_dirs) do add(d) end
     end
     add(DataStorage:getDocSettingsDir())
-    add(DataStorage:getDocSettingsHashDir())
     if #raw == 0 then add(filemanagerutil.getDefaultDir()) end
     local roots = {}
     for _, r in ipairs(raw) do
@@ -210,7 +222,7 @@ local function rebuildEntries()
     entries = {}
     total_count = 0
     for path, e in pairs(index) do
-        if e.count and e.count > 0 then
+        if type(e) == "table" and e.count and e.count > 0 then
             entries[#entries + 1] = { path = path, count = e.count }
             total_count = total_count + e.count
         end
@@ -223,7 +235,10 @@ local function loadIndex()
     if index then return end
     index_store = LuaSettings:open(indexCachePath())
     if index_store:readSetting("version") == CACHE_VERSION then
-        index = index_store:readSetting("entries") or {}
+        -- Valida o formato persistido: um índice corrompido não pode quebrar a
+        -- inicialização do plugin (loadIndex roda no init).
+        local stored = index_store:readSetting("entries")
+        index = type(stored) == "table" and stored or {}
     else
         index = {}
     end
@@ -242,7 +257,7 @@ local function indexMetaFile(meta_path)
     scan_seen[meta_path] = true
     local mtime = lfs.attributes(meta_path, "modification")
     local cached = index[meta_path]
-    if cached and cached.mtime == mtime then return end
+    if type(cached) == "table" and cached.mtime == mtime then return end
     index[meta_path] = { mtime = mtime, count = countItems(meta_path) }
     scan_changed = true
 end

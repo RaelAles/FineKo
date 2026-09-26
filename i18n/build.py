@@ -6,6 +6,7 @@ Requer o utilitário `msgfmt` (pacote gettext) no PATH.
 
 Saída: `<plugin>/l10n/<lang>/fineko.po` e `fineko.mo` para os 21 idiomas.
 """
+import hashlib
 import os
 import shutil
 import subprocess
@@ -52,7 +53,10 @@ def build_po(domain, keys, lang):
         '"Content-Type: text/plain; charset=UTF-8\\n"',
         '"Content-Transfer-Encoding: 8bit\\n"',
         '"Language: %s\\n"' % lang,
-        '"Plural-Forms: nplurals=2; plural=(n != 1);\\n"',
+        # Sem cabeçalho Plural-Forms: o catálogo não usa ngettext/plurais, e
+        # repetir a fórmula do inglês em todos os idiomas seria incorreto
+        # (ex.: francês usa `n > 1`). Reintroduza-o por idioma se um dia
+        # houver mensagens plurais.
         "",
     ]
     for key in keys:
@@ -79,6 +83,20 @@ def main():
         missing = all_keys - set(tr.TR.get(lang, {}))
         if missing:
             raise SystemExit("faltando em %s: %s" % (lang, sorted(missing)))
+
+    # Os três plugins compartilham a MESMA cópia de fineko_i18n.lua (mesmo nome
+    # de módulo no package.path). Garante que continuem byte-idênticas: uma
+    # divergência faria o comportamento depender da ordem de carga dos plugins.
+    i18n_copies = [
+        os.path.join(ROOT, plugin + ".koplugin", "fineko_i18n.lua")
+        for plugin in tr.DOMAIN_KEYS
+    ]
+    hashes = {}
+    for path in i18n_copies:
+        with open(path, "rb") as fh:
+            hashes[path] = hashlib.md5(fh.read()).hexdigest()
+    if len(set(hashes.values())) > 1:
+        raise SystemExit("fineko_i18n.lua divergentes: %s" % hashes)
 
     # Cada plugin carrega o catálogo COMPLETO (fineko.mo) para que a ordem de
     # carga dos plugins seja indiferente: o primeiro que carregar já injeta

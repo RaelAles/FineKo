@@ -106,7 +106,8 @@ local function getBadgeText(item, pct)
     end
     if item._em_badge then item._em_badge:free() end
     item._em_badge = TextWidget:new{
-        text = pct .. "%",
+        -- BD.wrap isola a direção do número em layouts espelhados (RTL).
+        text = BD.wrap(pct .. "%"),
         face = Font:getFace("cfont", 13),
         bold = true,
     }
@@ -190,8 +191,8 @@ local function paintShortcut(item, bb, x, y)
 end
 
 -- Localiza o widget da capa dentro do item. O caminho interno do coverbrowser
--- (item[1][1][1]) é estável hoje, mas frágil; se mudar, procuramos o primeiro
--- descendente com "dimen" em vez de perder o overlay em silêncio.
+-- (item[1][1][1]) é estável na v2026.07.1, mas frágil; se mudar, procuramos o
+-- primeiro descendente com "dimen" em vez de perder o overlay em silêncio.
 local function getCoverTarget(item)
     local direct = item[1] and item[1][1] and item[1][1][1]
     if direct and direct.dimen then return direct end
@@ -237,10 +238,16 @@ end
 
 -- Novo paintTo de cada MosaicMenuItem (chamado como item:paintTo(bb,x,y)).
 local last_overlay_error = 0
+local last_coord_warn = 0
 function Overlay.paintItem(item, bb, x, y)
     -- Paridade com o nativo: coordenadas não inteiras custam a diagnosticar.
+    -- Rate-limit: é chamado a cada repintura e inundava o log.
     if x ~= math.floor(x) or y ~= math.floor(y) then
-        logger.err("Estante mosaico: paintTo com coordenadas não inteiras:", x, y)
+        local now = os.time()
+        if now - last_coord_warn >= 5 then
+            last_coord_warn = now
+            logger.warn("Estante mosaico: paintTo com coordenadas não inteiras:", x, y)
+        end
     end
     -- Só a capa (sem os overlays nativos)
     InputContainer.paintTo(item, bb, x, y)
@@ -311,9 +318,11 @@ function Overlay.apply()
     return true
 end
 
--- Reverte o monkeypatch. O KOReader normalmente pede restart ao desativar um
--- plugin, mas expor o teardown evita que o overlay sobreviva ao desligamento
--- quando não há reinício.
+-- Reverte o monkeypatch global. O KOReader hoje exige reiniciar o app ao
+-- desativar um plugin, então isto é um teardown DEFENSIVO: o PluginLoader não
+-- o chama sozinho. A instância da estante o aciona em
+-- `EstanteMosaico:onCloseWidget` (e nunca no fechamento do leitor, para não
+-- derrubar o overlay da estante ao voltar de um livro).
 function Overlay.restore()
     if not Overlay._applied then return end
     local ok, MosaicMenu = pcall(require, "mosaicmenu")

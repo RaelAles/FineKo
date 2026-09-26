@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Apply to book: saves the selected metadata and cover."
@@ -56,6 +55,9 @@ msgstr "Error saving metadata: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Enter the book's ISBN-10 or ISBN-13.\nLeave blank to view/edit the document's current metadata."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "Invalid ISBN. Enter 10 or 13 digits (numbers only)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 result(s); long-press to show the full text"
 
 msgid "Salvar"
 msgstr "Save"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "Could not save the metadata."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metadata saved.\nCould not apply the cover."

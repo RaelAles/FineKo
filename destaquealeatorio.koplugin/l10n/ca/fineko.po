@@ -6,7 +6,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Aplicar ao livro: grava os metadados e a capa selecionados."
 msgstr "Aplica al llibre: desa les metadades i la coberta seleccionades."
@@ -56,6 +55,9 @@ msgstr "Error en desar les metadades: "
 msgid "Digite o ISBN-10 ou ISBN-13 do livro.\nDeixe vazio para ver/editar os metadados atuais do documento."
 msgstr "Introdueix l'ISBN-10 o l'ISBN-13 del llibre.\nDeixa-ho buit per veure/editar les metadades actuals del document."
 
+msgid "ISBN inválido. Informe 10 ou 13 dígitos (apenas números)."
+msgstr "ISBN no vàlid. Introduïu 10 o 13 dígits (només números)."
+
 msgid "ISBN:"
 msgstr "ISBN:"
 
@@ -97,6 +99,9 @@ msgstr "%1 resultat(s); mantén premut per mostrar el text complet"
 
 msgid "Salvar"
 msgstr "Desa"
+
+msgid "Não foi possível salvar os metadados."
+msgstr "No s'han pogut desar les metadades."
 
 msgid "Metadados salvos.\nNão foi possível aplicar a capa."
 msgstr "Metadades desades.\nNo s'ha pogut aplicar la coberta."
