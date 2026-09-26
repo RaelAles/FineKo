@@ -1,224 +1,225 @@
 # FineKo
 
-**English** | [Português (Brasil)](README.pt-BR.md)
+[English](README.en.md) | **Português (Brasil)**
 
-A collection of [KOReader](https://koreader.rocks/) plugins that improves how
-you organize, describe, and discover your books.
+Coleção de plugins para o [KOReader](https://koreader.rocks/) que melhora a
+organização, os metadados e a descoberta dos seus livros.
 
-The repository bundles three independent plugins, all written in Lua and
-installed as `.koplugin` folders:
+O repositório reúne três plugins independentes, todos escritos em Lua e
+instalados como pastas `.koplugin`:
 
-| Plugin | Folder | What it does |
+| Plugin | Pasta | O que faz |
 | --- | --- | --- |
-| Update metadata | `atualizarmetadados.koplugin` | Fetches metadata and cover by ISBN from several free sources and writes them to the book. |
-| Random highlight | `destaquealeatorio.koplugin` | Shows a random quote from your books when KOReader starts or resumes from suspend. |
-| Mosaic shelf | `estantemosaico.koplugin` | Draws the title and a reading-progress badge on each cover in the mosaic shelf. |
+| Atualizar metadados | `atualizarmetadados.koplugin` | Busca metadados e capa por ISBN em várias fontes gratuitas e grava no livro. |
+| Destaque aleatório | `destaquealeatorio.koplugin` | Mostra uma citação aleatória dos seus livros ao abrir o KOReader ou voltar da suspensão. |
+| Estante mosaico | `estantemosaico.koplugin` | Sobre a estante em mosaico, desenha o título e um selo de progresso em cada capa. |
 
 ---
 
-## 1. Update metadata (`atualizarmetadados.koplugin`)
+## 1. Atualizar metadados (`atualizarmetadados.koplugin`)
 
-Fetches a book's metadata by ISBN from several free sources, merges the results
-field by field, and lets you edit everything before saving — including picking
-the highest-quality cover.
+Busca metadados de um livro por ISBN em várias fontes gratuitas, agrega os
+resultados campo a campo e permite editar tudo antes de gravar — inclusive
+escolher a capa de maior qualidade.
 
-### How to use
+### Como usar
 
-1. On the shelf (or in History, Collections, or File search), long-press the
-   book and choose **Buscar metadados** (Fetch metadata).
-2. Type the book's **ISBN-10 or ISBN-13** and tap **Buscar** (Search).
-   - If you leave the field empty, the plugin opens the same window with the
-     document's current metadata, so you can just view/edit it without going
-     online.
-3. Wait for the search. A window opens with one row per field:
-   - **Title**, **Author(s)**, **Series**, **Series number**, **Language**,
-     **Keywords**, **Description**.
-   - **ISBN** (reference only, not editable).
-   - **Cover** (number of covers found).
-4. Tap a field to:
-   - choose among the alternatives found (the label shows how many), or
-   - edit it manually when there is only one option.
-   - For **Keywords**, the picker always opens and mixes the sources' results
-     with predefined categories.
-5. Tap **Cover** to open the cover picker:
-   - it lists every valid image with its source and dimensions;
-   - **tap** opens the image for review;
-   - **long-press** sets which cover will be applied.
-   - The automatically chosen cover (with no input) is the highest-scoring one,
-     combining resolution, aspect ratio, and source priority.
-6. Tap the confirmation icon (✓) on the title bar to **apply to the book**. The
-   plugin writes the metadata to the book's sidecar, applies the cover, and
-   finally renames the file to the **"Author - Title.ext"** pattern.
+1. Na estante (ou no Histórico, nas Coleções ou na Busca de arquivos), toque e
+   segure sobre o livro e escolha **Buscar metadados**.
+2. Digite o **ISBN-10 ou ISBN-13** do livro e toque em **Buscar**.
+   - Se deixar o campo vazio, o plugin abre a mesma janela com os metadados
+     atuais do documento para você só visualizar/editar, sem consultar a
+     internet.
+3. Aguarde a busca. Abre uma janela com uma linha por campo:
+   - **Título**, **Autor(es)**, **Série**, **Número na série**, **Idioma**,
+     **Palavras-chave**, **Descrição**.
+   - **ISBN** (apenas referência, não editável).
+   - **Capa** (número de capas encontradas).
+4. Toque em um campo para:
+   - escolher entre as alternativas encontradas (o rótulo mostra quantas são), ou
+   - editar manualmente quando há só uma opção.
+   - Em **Palavras-chave** o seletor sempre abre e mistura os resultados das
+     fontes com categorias predefinidas.
+5. Toque em **Capa** para abrir o seletor de capas:
+   - mostra cada imagem válida com sua fonte e dimensões;
+   - **toque** abre a imagem para conferir;
+   - **toque longo** define qual capa será aplicada.
+   - A capa escolhida automaticamente (sem intervenção) é a de maior pontuação,
+     que combina resolução, proporção e prioridade da fonte.
+6. Toque no ícone de confirmação (✓) na barra de título para **Aplicar ao
+   livro**. O plugin grava os metadados no sidecar do livro, aplica a capa e,
+   por fim, renomeia o arquivo para o padrão **"Autor - Título.ext"**.
 
-### Under the hood
+### O que ele faz por baixo
 
-- Queries free sources and merges the results by priority:
-  - **Google Books** (GData feed, API v1, and ViewAPI, in a cascade);
-  - **Open Library** (general and ISBN search);
+- Consulta fontes gratuitas e mescla os resultados por prioridade:
+  - **Google Books** (feed GData, API v1 e ViewAPI, em cascata);
+  - **Open Library** (busca geral e por ISBN);
   - **Inventaire / Wikidata**;
-  - **Amazon** (14 domains, ordered to favor the book's language);
-  - extra image-search covers when needed.
-- Collects cover candidates, removes duplicates (same dimensions and file
-  size), and discards broken or too-small images (minimum 100×100).
-- Writes the fields as `custom_props` and the cover via `flushCustomCover`,
-  making KOReader refresh the shelf immediately.
-- Renames using `FileManager` itself, which moves the `.sdr` sidecar along,
-  updates history and collections, and avoids name collisions.
+  - **Amazon** (14 domínios, em ordem que prioriza o idioma do livro);
+  - capas extras de busca de imagens quando necessário.
+- Junta as capas candidatas, remove duplicatas (mesma dimensão e tamanho de
+  arquivo) e descarta imagens quebradas ou pequenas demais (mínimo 100×100).
+- Grava os campos como `custom_props` e a capa via `flushCustomCover`, fazendo
+  o KOReader atualizar a estante na hora.
+- Renomeia usando o próprio `FileManager`, o que move o sidecar `.sdr` junto,
+  atualiza histórico e coleções e evita colisão de nomes.
 
-### Requirements
+### Requisitos
 
-- An internet connection for the search step (editing without an ISBN works
+- Conexão com a internet para a etapa de busca (a edição sem ISBN funciona
   offline).
 
 ---
 
-## 2. Random highlight (`destaquealeatorio.koplugin`)
+## 2. Destaque aleatório (`destaquealeatorio.koplugin`)
 
-Shows a random highlight (quote) from your books in a popup — when KOReader
-starts and/or when it resumes from suspend. It can also be triggered at any
-time from the menu.
+Exibe um destaque (citação) aleatório dos seus livros em um popup — ao abrir o
+KOReader e/ou ao retornar da suspensão. Também pode ser chamado a qualquer
+momento pelo menu.
 
-### How to use
+### Como usar
 
-- The popup appears automatically according to the enabled options (see below).
-- Go to **Menu → Tools → Destaque aleatório** (Random highlight) to:
-  - **Show when KOReader starts** (on by default);
-  - **Show when resuming from suspend** (on by default);
-  - **Show one now** — draws and shows a quote immediately.
-- Short quotes appear in a popup that closes on tap.
-- Long quotes (over ~180 characters) are shortened, with a **more** button to
-  open the full text. The popup shows the quote and, in italics, the
-  attribution **"Title - Author"**.
+- O popup aparece automaticamente conforme as opções ativas (veja abaixo).
+- Acesse **Menu → Ferramentas → Destaque aleatório** para:
+  - **Mostrar ao abrir o KOReader** (ligado por padrão);
+  - **Mostrar ao retornar da suspensão** (ligado por padrão);
+  - **Ver um destaque agora** — sorteia e mostra uma citação imediatamente.
+- Citações curtas aparecem em um popup que fecha ao toque.
+- Citações longas (mais de ~180 caracteres) são resumidas, com o botão
+  **mais** para abrir o texto completo. O popup mostra a citação e, em itálico,
+  a atribuição **"Título - Autor"**.
 
-### Under the hood
+### O que ele faz por baixo
 
-- To avoid freezing or using too much memory, it keeps a small **index** of the
-  `metadata.*.lua` sidecars: for each book it stores only the modification time
-  and the number of highlights.
-- The scan runs in the background, in slices, and is saved to disk. On later
-  sessions, only changed files are re-read.
-- The draw is weighted by each book's highlight count — equivalent to drawing
-  uniformly across all highlights — and only then opens that specific sidecar.
-- Reads highlights in both the new format (`annotations`) and the old one
-  (`bookmarks` with `highlighted`, and the pre-2014 `highlight` table), with
-  the same coverage as KOReader.
+- Para não travar nem consumir memória, mantém um **índice** enxuto dos
+  sidecars `metadata.*.lua`: para cada livro guarda apenas o horário de
+  modificação e a quantidade de destaques.
+- A varredura roda em segundo plano, em fatias, e é salva em disco. Nas sessões
+  seguintes, só os arquivos alterados são relidos.
+- O sorteio é ponderado pela quantidade de destaques de cada livro — o que
+  equivale a sortear uniformemente entre todos os destaques — e só então abre
+  aquele sidecar específico.
+- Lê os destaques nos formatos novo (`annotations`) e antigo (`bookmarks` com
+  `highlighted` e a tabela `highlight` pré-2014), com a mesma cobertura do
+  KOReader.
 
-### Known limitations
+### Limitações conhecidas
 
-- KOReader's legacy `history/` folder is not scanned (only the current sidecar
-  locations: next to the book, central folder, and hash folder).
-
----
-
-## 3. Mosaic shelf (`estantemosaico.koplugin`)
-
-Adds a visual layer over the mosaic shelf: a **translucent central band with
-the book's title** and a **subtle badge with the reading state** (percentage
-read, or ✓ when finished) on each cover.
-
-### How to use
-
-1. Enable the native **Cover browser** plugin and set the shelf to **mosaic
-   mode**. Mosaic shelf works as a layer on top of it.
-2. Go to **Menu → Tools → Estante mosaico** (Mosaic shelf) to toggle:
-   - **Central band with the title** (on by default);
-   - **Progress/finished badge** (on by default).
-
-### Under the hood
-
-- Instead of replacing the native mosaic, it wraps how the items are built and
-  swaps each cover's painting for its own version, which draws only the
-  plugin's overlays.
-- The title comes from `BookInfoManager` metadata; if metadata has not been
-  extracted yet, it falls back to the file name without extension.
-- The band is drawn only over covers with real artwork (not generated
-  text-only covers), to avoid repeating the title.
-- The badge shows the percentage read; from ~99.9% it shows a finished icon.
-
-### Requirements
-
-- The native **Cover browser** plugin must be enabled and in **mosaic mode**.
-  Without it, the plugin draws nothing and logs a warning.
+- A pasta legada `history/` do KOReader não é varrida (apenas os locais de
+  sidecar atuais: ao lado do livro, pasta central e pasta por hash).
 
 ---
 
-## Installation
+## 3. Estante mosaico (`estantemosaico.koplugin`)
 
-Plugins are folders ending in `.koplugin`. To install, just copy them into the
-`plugins` folder of your KOReader installation — the same folder that already
-contains native plugins such as `coverbrowser.koplugin`.
+Adiciona uma camada visual sobre a estante em mosaico: uma **faixa central
+translúcida com o título** do livro e um **selo sutil com o estado de leitura**
+(porcentagem lida ou ✓ quando concluído) sobre cada capa.
 
-### Option A — Download the release package (easiest)
+### Como usar
 
-1. Go to the repository's **Releases** page:
+1. Ative o plugin nativo **Cover browser** e coloque a estante em **modo
+   mosaico**. O Estante mosaico funciona como camada sobre ele.
+2. Acesse **Menu → Ferramentas → Estante mosaico** para ligar/desligar:
+   - **Faixa central com o título** (ligado por padrão);
+   - **Selo de progresso/conclusão** (ligado por padrão).
+
+### O que ele faz por baixo
+
+- Em vez de substituir o mosaico nativo, envolve a montagem dos ítens e troca
+  a pintura de cada capa por uma versão própria, que desenha somente os
+  overlays do plugin.
+- O título vem dos metadados do `BookInfoManager`; se ainda não houver
+  metadados extraídos, usa o nome do arquivo sem extensão.
+- A faixa só é desenhada sobre capas com arte real (não sobre capas de texto
+  geradas), para não repetir o título.
+- O selo mostra a porcentagem lida; a partir de ~99,9% mostra um ícone de
+  concluído.
+
+### Requisitos
+
+- O plugin nativo **Cover browser** precisa estar ativo e em **modo mosaico**.
+  Sem ele, o plugin não desenha nada e registra um aviso no log.
+
+---
+
+## Instalação
+
+Os plugins são pastas terminadas em `.koplugin`. Para instalar, basta copiá-las
+para dentro da pasta `plugins` da sua instalação do KOReader — a mesma pasta que
+já contém plugins nativos como `coverbrowser.koplugin`.
+
+### Opção A — Baixar o pacote de release (mais fácil)
+
+1. Acesse a página de **Releases** do repositório:
    <https://github.com/raelales/FineKo/releases>
-2. Download the `.zip` file from the latest version (generated on every `v*`
-   tag).
-3. Unzip the contents. You will see the three `.koplugin` folders.
-4. Copy the folders you want into KOReader's `plugins` folder.
-5. Restart KOReader (close and open it again).
+2. Baixe o arquivo `.zip` da versão mais recente (gerado a cada tag `v*`).
+3. Descompacte o conteúdo. Você verá as três pastas `.koplugin`.
+4. Copie as pastas que quiser para a pasta `plugins` do KOReader.
+5. Reinicie o KOReader (feche e abra de novo).
 
-### Option B — Copy from the repository
+### Opção B — Copiar do repositório
 
-1. Download or clone this repository:
+1. Baixe ou clone este repositório:
    ```bash
    git clone https://github.com/raelales/FineKo.git
    ```
-2. Copy each desired `.koplugin` folder into KOReader's `plugins` folder.
-3. Restart KOReader.
+2. Copie cada pasta `.koplugin` desejada para a pasta `plugins` do KOReader.
+3. Reinicie o KOReader.
 
-### Where the `plugins` folder is
+### Onde fica a pasta `plugins`
 
-It lives inside the KOReader installation folder. The path varies by device;
-locate the KOReader folder and look for the `plugins` subfolder (the one that
-contains `coverbrowser.koplugin`). Some common examples:
+Ela fica dentro da pasta de instalação do KOReader. O caminho varia conforme o
+aparelho; localize a pasta do KOReader e procure a subpasta `plugins` (a que
+contém `coverbrowser.koplugin`). Alguns exemplos comuns:
 
 - **Kobo:** `.adds/koreader/plugins/`
 - **Kindle:** `koreader/plugins/`
-- **Android:** `koreader/plugins/` on internal storage or the SD card.
-- **Desktop (Linux/Windows/macOS):** `plugins/` next to the KOReader
-  executable.
+- **Android:** `koreader/plugins/` na memória interna ou no cartão.
+- **Desktop (Linux/Windows/macOS):** `plugins/` ao lado do executável do
+  KOReader.
 
-> Tip: to install only some plugins, copy only the matching folders. They work
-> independently.
+> Dica: para instalar apenas alguns plugins, copie somente as pastas
+> correspondentes. Eles funcionam de forma independente.
 
-### Update
+### Atualizar
 
-Replace the old `.koplugin` folders with the new ones and restart KOReader. Your
-settings are stored in KOReader's settings (`G_reader_settings`) and are not
-lost.
+Substitua as pastas `.koplugin` antigas pelas novas e reinicie o KOReader. As
+configurações ficam guardadas nas configurações do KOReader
+(`G_reader_settings`) e não são perdidas.
 
-### Uninstall
+### Desinstalar
 
-Just delete the corresponding `.koplugin` folder and restart KOReader.
+Basta apagar a pasta `.koplugin` correspondente e reiniciar o KOReader.
 
 ---
 
-## Repository structure
+## Estrutura do repositório
 
 ```
 FineKo/
 ├── atualizarmetadados.koplugin/
-│   ├── _meta.lua      # plugin name and description
-│   └── main.lua       # search, merge, and save logic
+│   ├── _meta.lua      # nome e descrição do plugin
+│   └── main.lua       # lógica de busca, agregação e gravação
 ├── destaquealeatorio.koplugin/
 │   ├── _meta.lua
-│   └── main.lua       # index, draw, and quote popup
+│   └── main.lua       # índice, sorteio e popup da citação
 ├── estantemosaico.koplugin/
 │   ├── _meta.lua
-│   ├── main.lua       # menu and lifecycle
-│   └── em_overlay.lua # drawing of the band and badge over the covers
-└── .github/workflows/release.yml  # packages and publishes the release on each tag
+│   ├── main.lua       # menu e ciclo de vida
+│   └── em_overlay.lua # desenho da faixa e do selo sobre as capas
+└── .github/workflows/release.yml  # empacota e publica o release a cada tag
 ```
 
-## Releases and packaging
+## Releases e empacotamento
 
-The workflow in `.github/workflows/release.yml` runs when a tag starting with
-`v` is pushed. It packages the entire repository (except `.git`, `.github`, and
-`.zip` files) into a single `FineKo-<tag>.zip` file and publishes it to
-**Releases** with automatically generated notes.
+O fluxo em `.github/workflows/release.yml` é disparado ao enviar uma tag
+começada por `v`. Ele empacota o repositório inteiro (exceto `.git`, `.github`
+e arquivos `.zip`) em um único arquivo `FineKo-<tag>.zip` e publica em
+**Releases** com as notas geradas automaticamente.
 
-To create a new version:
+Para criar uma nova versão:
 
 ```bash
 git tag v1.0.0
