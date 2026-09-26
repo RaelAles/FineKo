@@ -31,8 +31,10 @@ jobs:
           NAME="$(basename "$GITHUB_REPOSITORY")-${GITHUB_REF_NAME}.zip"
           # Exclusões: ajuste aqui conforme o projeto.
           # .git e .github não fazem parte do produto; *.zip evita incluir o próprio arquivo.
+          # .gitignore e .gitattributes são metadados do repositório.
           zip -r "$NAME" . \
-            -x '.git/*' '.github/*' '*.zip'
+            -x '.git/*' '.git' '.github/*' '.github' \
+               '.gitignore' '.gitattributes' '*.zip'
           echo "Arquivo gerado:"
           unzip -l "$NAME"
           echo "ZIP_NAME=$NAME" >> "$GITHUB_ENV"
