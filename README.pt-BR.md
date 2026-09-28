@@ -1,8 +1,12 @@
-<p align="right"><a href="https://raelales.com/apoiar" title="Apoie o projeto FineKo"><img src=".github/assets/support-pt.svg" alt="Apoie-me — ajude a manter os plugins do FineKo gratuitos e atualizados"></a></p>
+<p align="right"><a href="https://raelales.com/apoiar" title="Apoie Rael Ales e seus projetos"><img src=".github/assets/support-pt.svg" alt="Apoie-me — ajude a manter os plugins do FineKo gratuitos e atualizados"></a></p>
+
+<!-- Português (Brasil) · [English](README.md) -->
 
 # FineKo
 
-[English](README.md) | **Português**
+**PT** · [EN](README.md)
+
+---
 
 Coleção de plugins para o [KOReader](https://koreader.rocks/) que melhora a
 organização, os metadados e a descoberta dos seus livros.
