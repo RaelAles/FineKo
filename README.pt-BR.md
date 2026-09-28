@@ -1,8 +1,8 @@
+<p align="right"><a href="https://raelales.com/apoiar" title="Apoie o projeto FineKo"><img src=".github/assets/support-pt.svg" alt="Apoie-me — ajude a manter os plugins do FineKo gratuitos e atualizados"></a></p>
+
 # FineKo
 
 [English](README.md) | **Português**
-
-[![Apoie-me — ajude a manter os plugins do FineKo gratuitos e atualizados](https://img.shields.io/badge/Apoie--me-E91E63?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTEgMTRoMmEyIDIgMCAwIDAgMC00aC0zYy0uNiAwLTEuMS4yLTEuNC42TDMgMTYiLz48cGF0aCBkPSJtMTQuNDUgMTMuMzkgNS4wNS00LjY5NEMyMC4xOTYgOCAyMSA2Ljg1IDIxIDUuNzVhMi43NSAyLjc1IDAgMCAwLTQuNzk3LTEuODM3LjI3Ni4yNzYgMCAwIDEtLjQwNiAwQTIuNzUgMi43NSAwIDAgMCAxMSA1Ljc1YzAgMS4yLjgwMiAyLjI0OCAxLjUgMi45NDZMMTYgMTEuOTUiLz48cGF0aCBkPSJtMiAxNSA2IDYiLz48cGF0aCBkPSJtNyAyMCAxLjYtMS40Yy4zLS40LjgtLjYgMS40LS42aDRjMS4xIDAgMi4xLS40IDIuOC0xLjJsNC42LTQuNGExIDEgMCAwIDAtMi43NS0yLjkxIi8%2BPC9zdmc%2B "Apoie o projeto FineKo")](https://raelales.com/apoiar)
 
 Coleção de plugins para o [KOReader](https://koreader.rocks/) que melhora a
 organização, os metadados e a descoberta dos seus livros.
@@ -243,6 +243,7 @@ FineKo/
 ├── i18n/
 │   ├── translations.py    # catálogo de mensagens e as 21 traduções
 │   └── build.py           # gera os arquivos .po e .mo
+├── .github/assets/        # botão de apoio usado neste README
 ├── .github/workflows/release.yml  # empacota e publica o release a cada tag
 ├── README.md              # versão em inglês (padrão)
 └── README.pt-BR.md        # este arquivo (português)
