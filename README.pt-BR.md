@@ -2,6 +2,8 @@
 
 [English](README.md) | **Português**
 
+[![Apoie-me — ajude a manter os plugins do FineKo gratuitos e atualizados](https://img.shields.io/badge/Apoie--me-E91E63?style=for-the-badge "Apoie o projeto FineKo")](https://raelales.com/apoiar)
+
 Coleção de plugins para o [KOReader](https://koreader.rocks/) que melhora a
 organização, os metadados e a descoberta dos seus livros.
 
