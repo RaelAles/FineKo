@@ -1,10 +1,6 @@
+<p align="left"><sub><b>EN</b> · <a href="README.pt-BR.md">PT</a></sub></p>
+
 <p align="right"><a href="https://raelales.com/apoiar" title="Apoie Rael Ales e seus projetos"><img src=".github/assets/support-en.svg" alt="Support me — help keep the FineKo plugins free and up to date"></a></p>
-
-<!-- English · [Português (Brasil)](README.pt-BR.md) -->
-
-**EN** · [PT](README.pt-BR.md)
-
----
 
 # FineKo
 
@@ -20,7 +16,6 @@ installed as `.koplugin` folders:
 | Random highlight | `destaquealeatorio.koplugin` | Shows a random quote from your books when KOReader starts or resumes from suspend. |
 | Mosaic shelf | `estantemosaico.koplugin` | Draws the title and a reading-progress badge on each cover in the mosaic shelf. |
 
----
 
 ## 1. Update metadata (`atualizarmetadados.koplugin`)
 
@@ -76,7 +71,6 @@ the highest-quality cover.
 - An internet connection for the search step (editing without an ISBN works
   offline).
 
----
 
 ## 2. Random highlight (`destaquealeatorio.koplugin`)
 
@@ -114,7 +108,6 @@ time from the menu.
 - KOReader's legacy `history/` folder is not scanned (only the current sidecar
   locations: next to the book, central folder, and hash folder).
 
----
 
 ## 3. Mosaic shelf (`estantemosaico.koplugin`)
 
@@ -146,7 +139,6 @@ read, or ✓ when finished) on each cover.
 - The native **Cover browser** plugin must be enabled and in **mosaic mode**.
   Without it, the plugin draws nothing and logs a warning.
 
----
 
 ## Installation
 
@@ -198,7 +190,6 @@ lost.
 
 Just delete the corresponding `.koplugin` folder and restart KOReader.
 
----
 
 ## Languages and translations
 
@@ -222,7 +213,6 @@ the msgid itself. To change or add a translation:
    three plugins and checks that the three copies of `fineko_i18n.lua` stay
    identical.
 
----
 
 ## Repository structure
 
