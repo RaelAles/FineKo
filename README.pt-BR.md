@@ -1,10 +1,6 @@
+<p align="left"><sub><b>PT</b> · <a href="README.md">EN</a></sub></p>
+
 <p align="right"><a href="https://raelales.com/apoiar" title="Apoie Rael Ales e seus projetos"><img src=".github/assets/support-pt.svg" alt="Apoie-me — ajude a manter os plugins do FineKo gratuitos e atualizados"></a></p>
-
-<!-- Português (Brasil) · [English](README.md) -->
-
-**PT** · [EN](README.md)
-
----
 
 # FineKo
 
@@ -20,7 +16,6 @@ instalados como pastas `.koplugin`:
 | Destaque aleatório | `destaquealeatorio.koplugin` | Mostra uma citação aleatória dos seus livros ao abrir o KOReader ou voltar da suspensão. |
 | Estante mosaico | `estantemosaico.koplugin` | Sobre a estante em mosaico, desenha o título e um selo de progresso em cada capa. |
 
----
 
 ## 1. Atualizar metadados (`atualizarmetadados.koplugin`)
 
@@ -76,7 +71,6 @@ escolher a capa de maior qualidade.
 - Conexão com a internet para a etapa de busca (a edição sem ISBN funciona
   offline).
 
----
 
 ## 2. Destaque aleatório (`destaquealeatorio.koplugin`)
 
@@ -115,7 +109,6 @@ momento pelo menu.
 - A pasta legada `history/` do KOReader não é varrida (apenas os locais de
   sidecar atuais: ao lado do livro, pasta central e pasta por hash).
 
----
 
 ## 3. Estante mosaico (`estantemosaico.koplugin`)
 
@@ -148,7 +141,6 @@ translúcida com o título** do livro e um **selo sutil com o estado de leitura*
 - O plugin nativo **Cover browser** precisa estar ativo e em **modo mosaico**.
   Sem ele, o plugin não desenha nada e registra um aviso no log.
 
----
 
 ## Instalação
 
@@ -199,7 +191,6 @@ configurações ficam guardadas nas configurações do KOReader
 
 Basta apagar a pasta `.koplugin` correspondente e reiniciar o KOReader.
 
----
 
 ## Idiomas e traduções
 
@@ -222,7 +213,6 @@ próprio msgid. Para alterar ou acrescentar uma tradução:
 3. O script grava `<plugin>/l10n/<idioma>/fineko.po` e `fineko.mo` nos três
    plugins e confere se as três cópias de `fineko_i18n.lua` seguem idênticas.
 
----
 
 ## Estrutura do repositório
 
