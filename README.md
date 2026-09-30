@@ -23,6 +23,8 @@ Fetches a book's metadata by ISBN from several free sources, merges the results
 field by field, and lets you edit everything before saving — including picking
 the highest-quality cover.
 
+![Metadata search window in KOReader](atualizarmetadados.koplugin.png)
+
 ### How to use
 
 1. On the shelf (or in History, Collections, or File search), long-press the
@@ -78,6 +80,8 @@ Shows a random highlight (quote) from your books in a popup — when KOReader
 starts and/or when it resumes from suspend. It can also be triggered at any
 time from the menu.
 
+![Random highlight popup in KOReader](destaquealeatorio.koplugin.png)
+
 ### How to use
 
 - The popup appears automatically according to the enabled options (see below).
@@ -114,6 +118,8 @@ time from the menu.
 Adds a visual layer over the mosaic shelf: a **translucent central band with
 the book's title** and a **subtle badge with the reading state** (percentage
 read, or ✓ when finished) on each cover.
+
+![Mosaic shelf cover with title band and progress badge](estantemosaico.koplugin.png)
 
 ### How to use
 
