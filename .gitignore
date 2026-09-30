@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+
+# Segredos e credenciais (adicionado pelo GitUX)
+.env
+*.pem
+*.key
+*.p12
+id_rsa
+credentials
