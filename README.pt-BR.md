@@ -23,6 +23,8 @@ Busca metadados de um livro por ISBN em várias fontes gratuitas, agrega os
 resultados campo a campo e permite editar tudo antes de gravar — inclusive
 escolher a capa de maior qualidade.
 
+![Janela de busca de metadados no KOReader](atualizarmetadados.koplugin.png)
+
 ### Como usar
 
 1. Na estante (ou no Histórico, nas Coleções ou na Busca de arquivos), toque e
@@ -78,6 +80,8 @@ Exibe um destaque (citação) aleatório dos seus livros em um popup — ao abri
 KOReader e/ou ao retornar da suspensão. Também pode ser chamado a qualquer
 momento pelo menu.
 
+![Popup de destaque aleatório no KOReader](destaquealeatorio.koplugin.png)
+
 ### Como usar
 
 - O popup aparece automaticamente conforme as opções ativas (veja abaixo).
@@ -115,6 +119,8 @@ momento pelo menu.
 Adiciona uma camada visual sobre a estante em mosaico: uma **faixa central
 translúcida com o título** do livro e um **selo sutil com o estado de leitura**
 (porcentagem lida ou ✓ quando concluído) sobre cada capa.
+
+![Capa da estante em mosaico com faixa de título e selo de progresso](estantemosaico.koplugin.png)
 
 ### Como usar
 
