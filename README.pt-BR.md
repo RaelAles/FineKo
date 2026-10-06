@@ -263,3 +263,7 @@ Para criar uma nova versão:
 git tag v1.0.0
 git push origin v1.0.0
 ```
+
+## Apoie
+
+Se este projeto te ajuda, você pode apoiar o trabalho: https://raelales.com/apoiar
